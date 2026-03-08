@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProfitCast — Live Streaming Career</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --rose:       #C5436C;
+      --rose-dark:  #9E2E52;
+      --rose-mid:   #D4527A;
+      --rose-light: #F2C4D4;
+      --bg:         #FFF5F8;
+      --bg2:        #F9E0E8;
+      --dark:       #2A1520;
+      --muted:      #7A4A5A;
+      --white:      #fff;
+      --radius:     20px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ─────────────────────────────── */
+    nav {
+      background: var(--white);
+      padding: 18px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #F0D0DC;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(197,67,108,.08);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--rose-dark);
+      text-decoration: none;
+      letter-spacing: -.5px;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--rose); }
+    .nav-tg {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--rose);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .nav-tg svg { flex-shrink: 0; }
+
+    /* ── HERO ─────────────────────────────── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 530px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 32px 40px 0;
+      box-shadow: 0 8px 40px rgba(197,67,108,.18);
+    }
+    .hero-left {
+      background: var(--rose);
+      padding: 80px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.18);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      width: fit-content;
+      margin-bottom: 28px;
+    }
+    .hero-left h1 {
+      font-size: 46px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.18;
+      margin-bottom: 16px;
+    }
+    .hero-left h1 em {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 600;
+    }
+    .hero-sub {
+      color: rgba(255,255,255,.85);
+      font-size: 16px;
+      margin-bottom: 40px;
+      max-width: 380px;
+    }
+    .btn-white {
+      display: inline-block;
+      background: var(--white);
+      color: var(--rose);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 16px 40px;
+      border-radius: 100px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      width: fit-content;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+    .hero-right {
+      background: var(--bg2);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-right img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-right .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(197,67,108,.1) 0%, transparent 60%);
+    }
+
+    /* ── FEATURES ─────────────────────────── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 28px;
+      padding: 64px 80px;
+      text-align: center;
+    }
+    .feature { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .feature-icon {
+      width: 64px; height: 64px;
+      background: var(--bg2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+    }
+    .feature h3 { font-size: 15px; font-weight: 600; color: var(--dark); line-height: 1.4; }
+    .feature p  { font-size: 13px; color: var(--muted); }
+
+    /* ── SECTION TITLES ───────────────────── */
+    .sec-title { text-align: center; margin-bottom: 52px; }
+    .sec-title h2 { font-size: 42px; font-weight: 700; color: var(--dark); line-height: 1.2; }
+    .sec-title h2 em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--rose); }
+    .sec-title p { color: var(--muted); margin-top: 12px; font-size: 16px; }
+
+    /* ── HOW IT WORKS ─────────────────────── */
+    .how { padding: 80px 80px; background: var(--white); }
+    .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+    .step { background: var(--bg); border-radius: var(--radius); padding: 44px 36px; }
+    .step-num {
+      width: 50px; height: 50px;
+      background: var(--rose);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 20px;
+      margin-bottom: 22px;
+    }
+    .step h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+    .step p  { color: var(--muted); font-size: 14px; line-height: 1.75; }
+
+    /* ── ABOUT ────────────────────────────── */
+    .about {
+      padding: 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-img {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(197,67,108,.2);
+    }
+    .about-img img { width: 100%; height: 460px; object-fit: cover; display: block; }
+    .about-txt h2 { font-size: 38px; font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+    .about-txt h2 em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--rose); }
+    .about-txt p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-bottom: 16px; }
+    .stats { display: flex; gap: 40px; margin-top: 36px; }
+    .stat h3 { font-size: 38px; font-weight: 700; color: var(--rose); }
+    .stat p   { font-size: 13px; color: var(--muted); }
+
+    /* ── GALLERY STRIP ────────────────────── */
+    .gallery {
+      padding: 0 80px 80px;
+      overflow: hidden;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 20px;
+    }
+    .gallery-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      height: 280px;
+      box-shadow: 0 6px 24px rgba(197,67,108,.12);
+    }
+    .gallery-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+    .gallery-card:hover img { transform: scale(1.04); }
+    .gallery-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(42,21,32,.7));
+      color: var(--white);
+      padding: 24px 20px 18px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* ── FORM ─────────────────────────────── */
+    .form-sec { padding: 80px; background: var(--rose); }
+    .form-sec .sec-title h2 { color: var(--white); }
+    .form-sec .sec-title h2 em { color: rgba(255,255,255,.65); }
+    .form-sec .sec-title p { color: rgba(255,255,255,.8); }
+
+    .form-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 60px;
+      max-width: 740px;
+      margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .fg { display: flex; flex-direction: column; gap: 8px; }
+    .fg.full { grid-column: 1 / -1; }
+    .fg label { font-size: 13px; font-weight: 600; color: var(--dark); letter-spacing: .4px; }
+    .fg input, .fg select, .fg textarea {
+      border: 1.5px solid #F0D0DC;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      background: var(--bg);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--rose); }
+    .fg textarea { resize: vertical; min-height: 120px; }
+    .form-footer { text-align: center; margin-top: 30px; }
+    .btn-rose {
+      background: var(--rose);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 16px;
+      padding: 18px 64px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+    .btn-rose:hover { background: var(--rose-dark); transform: translateY(-2px); }
+    .form-note { font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+    .form-success { display: none; text-align: center; padding: 48px 20px; }
+    .form-success .big-icon { font-size: 72px; margin-bottom: 20px; }
+    .form-success h3 { font-size: 26px; font-weight: 700; color: var(--rose); margin-bottom: 12px; }
+    .form-success p  { color: var(--muted); font-size: 15px; line-height: 1.7; }
+
+    /* ── FOOTER ───────────────────────────── */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,.65);
+      padding: 48px 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .foot-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    footer p { font-size: 13px; }
+
+    /* ── RESPONSIVE ───────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; margin: 16px; min-height: auto; }
+      .hero-right { display: none; }
+      .hero-left { padding: 52px 32px; border-radius: var(--radius); }
+      .hero-left h1 { font-size: 34px; }
+      .features { grid-template-columns: repeat(2,1fr); padding: 48px 24px; }
+      .how { padding: 60px 24px; }
+      .steps { grid-template-columns: 1fr; }
+      .about { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+      .gallery { padding: 0 24px 60px; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .form-sec { padding: 60px 24px; }
+      .form-card { padding: 36px 24px; }
+      .form-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════════════════ -->
+<nav>
+  <a class="nav-logo" href="#">ProfitCast</a>
+  <ul class="nav-links">
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#apply">Apply Now</a></li>
+  </ul>
+  <a class="nav-tg" href="https://t.me/profitcast_official" target="_blank">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.012 9.488c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.875.733z"/>
+    </svg>
+    Write to us
+  </a>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-badge">🎥 Live Streaming Careers</span>
+    <h1>Your career in<br><em>live streaming</em><br>starts here</h1>
+    <p class="hero-sub">Join ProfitCast — a worldwide live streaming company with 7+ years of experience helping people build a successful career online.</p>
+    <a href="#apply" class="btn-white">Apply Now →</a>
+  </div>
+  <div class="hero-right">
+    <img
+      src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=900&auto=format&fit=crop&q=80"
+      alt="Live streaming setup"
+      onerror="this.parentElement.style.background='#F2C4D4'"
+    />
+    <div class="hero-overlay"></div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ══════════════════════════════════════════════════ -->
+<section class="features">
+  <div class="feature">
+    <div class="feature-icon">🏠</div>
+    <h3>Work From<br>Anywhere</h3>
+    <p>Home, studio or anywhere you feel comfortable</p>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">⏰</div>
+    <h3>Flexible<br>Schedule</h3>
+    <p>Choose your own hours and working days</p>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">💸</div>
+    <h3>High &amp; Stable<br>Income</h3>
+    <p>Transparent payments and no income ceiling</p>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">🌍</div>
+    <h3>Global<br>Audience</h3>
+    <p>Connect with viewers from around the world</p>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ══════════════════════════════════════════════ -->
+<section class="how" id="how">
+  <div class="sec-title">
+    <h2>How it <em>works</em></h2>
+    <p>Three simple steps to start your streaming career</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Submit Your Application</h3>
+      <p>Fill out the short form below. Tell us a little about yourself — our team reviews every application personally within 24 hours.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Online Interview</h3>
+      <p>We schedule a quick and friendly video call. We'll answer all your questions and explain everything about the work in detail.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Start Broadcasting</h3>
+      <p>After approval you get full onboarding, personal manager support, and access to the best platforms with large global audiences.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ══════════════════════════════════════════════════════ -->
+<section class="about" id="about">
+  <div class="about-img">
+    <img
+      src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&auto=format&fit=crop&q=80"
+      alt="Content creation"
+      onerror="this.style.background='#F2C4D4'; this.style.height='460px'"
+    />
+  </div>
+  <div class="about-txt">
+    <h2>We connect <em>talent</em><br>with opportunity</h2>
+    <p>ProfitCast is a professional live streaming company specializing in live communication with online audiences. We help engaging personalities build a sustainable and rewarding career on the world's top platforms.</p>
+    <p>With over <strong>7 years of experience</strong> operating worldwide, we've helped thousands of people discover a new career path — flexible, creative, and well-paid.</p>
+    <p>We provide everything you need from day one: training, technical support, a dedicated personal manager, and access to platforms with the largest audiences across multiple countries.</p>
+    <div class="stats">
+      <div class="stat">
+        <h3>7+</h3>
+        <p>Years on<br>the market</p>
+      </div>
+      <div class="stat">
+        <h3>50+</h3>
+        <p>Countries<br>worldwide</p>
+      </div>
+      <div class="stat">
+        <h3>1000+</h3>
+        <p>Active<br>broadcasters</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALLERY ════════════════════════════════════════════════════ -->
+<section class="gallery">
+  <div class="gallery-grid">
+    <div class="gallery-card">
+      <img
+        src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=700&auto=format&fit=crop&q=80"
+        alt="Camera setup"
+        onerror="this.style.background='#F2C4D4'"
+      />
+      <div class="gallery-label">Professional Setup</div>
+    </div>
+    <div class="gallery-card">
+      <img
+        src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=700&auto=format&fit=crop&q=80"
+        alt="Content creator"
+        onerror="this.style.background='#E8A0B8'"
+      />
+      <div class="gallery-label">Engage Your Audience</div>
+    </div>
+    <div class="gallery-card">
+      <img
+        src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=700&auto=format&fit=crop&q=80"
+        alt="Live streaming"
+        onerror="this.style.background='#D4527A'"
+      />
+      <div class="gallery-label">Go Live Worldwide</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ APPLICATION FORM ═══════════════════════════════════════════ -->
+<section class="form-sec" id="apply">
+  <div class="sec-title">
+    <h2 style="color:#fff">Ready to <em>start?</em></h2>
+    <p>Fill out the form and we will contact you within 24 hours</p>
+  </div>
+
+  <div class="form-card">
+    <div id="form-wrap">
+      <form id="applyForm" novalidate>
+        <div class="form-grid">
+          <div class="fg">
+            <label>Your Name *</label>
+            <input type="text" name="name" placeholder="Maria" required />
+          </div>
+          <div class="fg">
+            <label>Age *</label>
+            <input type="number" name="age" placeholder="23" min="18" max="50" required />
+          </div>
+          <div class="fg">
+            <label>Country *</label>
+            <input type="text" name="country" placeholder="Ukraine, Brazil, Philippines…" required />
+          </div>
+          <div class="fg">
+            <label>Telegram or WhatsApp *</label>
+            <input type="text" name="contact" placeholder="@username or +380..." required />
+          </div>
+          <div class="fg full">
+            <label>Tell us about yourself</label>
+            <textarea name="message" placeholder="Any experience with cameras, social media, or live streaming? Share anything you'd like!"></textarea>
+          </div>
+        </div>
+        <div class="form-footer">
+          <button type="submit" class="btn-rose" id="submitBtn">Send Application →</button>
+          <p class="form-note">By submitting this form you agree to be contacted by our team via Telegram or WhatsApp</p>
+        </div>
+      </form>
+    </div>
+
+    <div class="form-success" id="formSuccess">
+      <div class="big-icon">✅</div>
+      <h3>Application Received!</h3>
+      <p>Thank you! Our manager will contact you within 24 hours.<br />Check your Telegram or WhatsApp for our message.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═════════════════════════════════════════════════════ -->
+<footer>
+  <span class="foot-logo">ProfitCast</span>
+  <p>© 2025 ProfitCast · Working worldwide since 2018</p>
+  <p>Live Streaming &amp; Broadcasting</p>
+</footer>
+
+<!-- ═══ FORM SCRIPT ════════════════════════════════════════════════ -->
+<script>
+  const BOT_TOKEN    = '8635637632:AAHbN2u39OVfV3-G_xJU0x5TjYVc-hBwfZQ';
+  const CHAT_ID      = '7577571032';
+  const W3F_KEY      = '1d3952a6-be43-4373-be41-4d1c541eb150';
+
+  document.getElementById('applyForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    const f = e.target;
+    const name    = f.name.value.trim();
+    const age     = f.age.value.trim();
+    const country = f.country.value.trim();
+    const contact = f.contact.value.trim();
+    const message = f.message.value.trim();
+
+    const now = new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' });
+
+    // — Telegram —
+    const tgText =
+      `🆕 *New Application — ProfitCast*\n\n` +
+      `👤 *Name:* ${name}\n` +
+      `🎂 *Age:* ${age}\n` +
+      `🌍 *Country:* ${country}\n` +
+      `📱 *Contact:* ${contact}\n` +
+      `💬 *About:* ${message || '—'}\n\n` +
+      `⏰ ${now} MSK`;
+
+    // — Email (Web3Forms) —
+    const emailBody = {
+      access_key: W3F_KEY,
+      subject: `New Application from ${name} — ProfitCast`,
+      name: name,
+      email: 'noreply@profitcast.com',
+      message:
+        `Name: ${name}\nAge: ${age}\nCountry: ${country}\nContact: ${contact}\nAbout: ${message || '—'}\n\nTime: ${now} MSK`
+    };
+
+    try {
+      const [tgRes, emailRes] = await Promise.all([
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: CHAT_ID, text: tgText, parse_mode: 'Markdown' })
+        }),
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(emailBody)
+        })
+      ]);
+
+      const tgData    = await tgRes.json();
+      const emailData = await emailRes.json();
+
+      if (tgData.ok || emailData.success) {
+        document.getElementById('form-wrap').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } else {
+        throw new Error('Both channels failed');
+      }
+    } catch (err) {
+      btn.textContent = 'Send Application →';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again or write to us directly on Telegram.');
+    }
+  });
+</script>
+
+</body>
+</html>
