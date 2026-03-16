@@ -6,102 +6,212 @@
   <title>ProfitCast — Live Streaming Career</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     :root {
-      --rose:       #C5436C;
-      --rose-dark:  #9E2E52;
-      --rose-mid:   #D4527A;
-      --rose-light: #F2C4D4;
-      --bg:         #FFF5F8;
-      --bg2:        #F9E0E8;
-      --dark:       #2A1520;
-      --muted:      #7A4A5A;
-      --white:      #fff;
-      --radius:     20px;
+      --black:  #0e0e0e;
+      --white:  #ffffff;
+      --light:  #f4f4f4;
+      --mid:    #e8e8e8;
+      --gray:   #888;
+      --muted:  #aaa;
+      --radius: 4px;
+      --font:   'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
 
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); line-height: 1.6; }
-
-    /* ── NAV ─────────────────────────────── */
-    nav {
+    body {
+      font-family: var(--font);
       background: var(--white);
-      padding: 14px 60px;
+      color: var(--black);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ──────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #F0D0DC;
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      box-shadow: 0 2px 20px rgba(197,67,108,.08);
+      padding: 20px 56px;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #eee;
       flex-wrap: wrap;
       gap: 10px;
     }
-    .nav-logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--rose-dark); text-decoration: none; letter-spacing: -.5px; }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
-    .nav-links a { text-decoration: none; color: var(--dark); font-size: 14px; font-weight: 500; transition: color .2s; }
-    .nav-links a:hover { color: var(--rose); }
-    .nav-right { display: flex; align-items: center; gap: 18px; }
-    .nav-tg { display: flex; align-items: center; gap: 7px; color: var(--rose); text-decoration: none; font-size: 14px; font-weight: 600; }
+
+    .nav-logo {
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: opacity .2s;
+    }
+    .nav-links a:hover { opacity: .45; }
+
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+
+    .nav-tg {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--black);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border: 1px solid var(--black);
+      padding: 8px 18px;
+      transition: background .2s, color .2s;
+    }
+    .nav-tg:hover { background: var(--black); color: var(--white); }
     .nav-tg svg { flex-shrink: 0; }
 
     /* Language switcher */
-    .lang-switcher { display: flex; gap: 5px; }
+    .lang-switcher { display: flex; gap: 4px; }
     .lang-btn {
-      padding: 4px 10px;
-      border-radius: 20px;
-      border: 1.5px solid var(--rose-light);
+      padding: 5px 10px;
+      border: 1px solid #ccc;
       background: transparent;
-      color: var(--rose);
-      font-size: 11px;
+      color: var(--gray);
+      font-size: 10px;
       font-weight: 700;
+      font-family: var(--font);
+      letter-spacing: 1px;
       cursor: pointer;
       transition: all .2s;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: .5px;
+      text-transform: uppercase;
     }
-    .lang-btn.active, .lang-btn:hover { background: var(--rose); color: white; border-color: var(--rose); }
+    .lang-btn.active, .lang-btn:hover {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
 
-    /* ── HERO ─────────────────────────────── */
+    /* ── HERO ──────────────────────────────────────── */
     .hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #f0f0f0 0%, #e6e6e6 50%, #d8d8d8 100%);
       display: grid;
       grid-template-columns: 1fr 1fr;
-      min-height: 540px;
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin: 32px 40px 0;
-      box-shadow: 0 8px 40px rgba(197,67,108,.18);
+      padding-top: 80px;
       position: relative;
+      overflow: hidden;
     }
+
     .hero-left {
-      background: linear-gradient(145deg, #C5436C 0%, #9E2E52 100%);
-      padding: 80px 60px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      padding: 80px 56px 80px;
       position: relative;
       z-index: 2;
     }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.18); color: var(--white); font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; width: fit-content; margin-bottom: 28px; }
-    .hero-left h1 { font-size: 46px; font-weight: 700; color: var(--white); line-height: 1.18; margin-bottom: 16px; }
-    .hero-left h1 em { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; }
-    .hero-sub { color: rgba(255,255,255,.85); font-size: 16px; margin-bottom: 40px; max-width: 380px; }
-    .btn-white { display: inline-block; background: var(--white); color: var(--rose); font-weight: 700; font-size: 15px; padding: 16px 40px; border-radius: 100px; text-decoration: none; border: none; cursor: pointer; width: fit-content; transition: transform .2s, box-shadow .2s; }
-    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      width: fit-content;
+      margin-bottom: 40px;
+    }
+
+    .hero-left h1 {
+      font-size: clamp(42px, 6vw, 76px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      color: var(--black);
+    }
+    .hero-left h1 em {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: -1px;
+    }
+
+    .hero-sub {
+      color: #555;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.9;
+      margin-bottom: 48px;
+      max-width: 400px;
+    }
+
+    .btn-black {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 18px 48px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      width: fit-content;
+      transition: opacity .2s, transform .2s;
+    }
+    .btn-black:hover { opacity: .75; transform: translateY(-2px); }
 
     .hero-right {
-      background: var(--bg2);
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
+      overflow: hidden;
     }
-    .hero-right img { width: 100%; height: 100%; object-fit: cover; }
-    .hero-right .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(197,67,108,.15) 0%, transparent 60%); }
 
-    /* Strawberry rain */
+    .hero-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,.08) 0%, transparent 60%);
+    }
+
+    /* Strawberry rain — subtle */
     .straw-rain {
       position: absolute;
       inset: 0;
@@ -112,150 +222,545 @@
     .straw {
       position: absolute;
       top: -40px;
-      font-size: 22px;
+      font-size: 18px;
       opacity: 0;
       animation: strawFall linear infinite;
       user-select: none;
+      filter: grayscale(60%);
     }
     @keyframes strawFall {
-      0%   { transform: translateY(-40px) rotate(0deg);   opacity: 0;    }
-      10%  { opacity: 0.45; }
-      90%  { opacity: 0.35; }
-      100% { transform: translateY(600px) rotate(400deg); opacity: 0;    }
+      0%   { transform: translateY(-40px) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.3; }
+      90%  { opacity: 0.2; }
+      100% { transform: translateY(110vh) rotate(400deg); opacity: 0; }
     }
 
-    /* ── FEATURES ─────────────────────────── */
-    .features { display: grid; grid-template-columns: repeat(4,1fr); gap: 28px; padding: 64px 80px; text-align: center; }
+    /* Socials on hero */
+    .hero-socials {
+      position: absolute;
+      right: 32px;
+      bottom: 48px;
+      display: flex;
+      gap: 16px;
+      z-index: 4;
+    }
+    .hero-socials a {
+      color: var(--black);
+      font-size: 13px;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+    .hero-socials a:hover { opacity: .4; }
+
+    /* Scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 56px;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #666;
+    }
+    .hero-scroll-line {
+      width: 40px;
+      height: 1px;
+      background: #999;
+    }
+
+    /* ── FEATURES ──────────────────────────────────── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      background: var(--black);
+    }
+
     .feature {
+      padding: 56px 36px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      background: linear-gradient(145deg, #C5436C 0%, #F0829E 60%, #F7C4D4 100%);
-      border-radius: var(--radius);
-      padding: 36px 20px 28px;
-      box-shadow: 0 6px 24px rgba(197,67,108,.18);
-      transition: transform .25s, box-shadow .25s;
+      gap: 18px;
+      border-right: 1px solid #222;
+      transition: background .3s;
     }
-    .feature:hover { transform: translateY(-6px); box-shadow: 0 14px 36px rgba(197,67,108,.28); }
-    .feature-icon { width: 64px; height: 64px; background: rgba(255,255,255,.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; }
-    .feature h3 { font-size: 15px; font-weight: 700; color: white; line-height: 1.4; }
-    .feature p  { font-size: 13px; color: rgba(255,255,255,.85); }
+    .feature:last-child { border-right: none; }
+    .feature:hover { background: #1a1a1a; }
 
-    /* ── SECTION TITLES ───────────────────── */
-    .sec-title { text-align: center; margin-bottom: 52px; }
-    .sec-title h2 { font-size: 42px; font-weight: 700; color: var(--dark); line-height: 1.2; }
-    .sec-title h2 em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--rose); }
-    .sec-title p { color: var(--muted); margin-top: 12px; font-size: 16px; }
+    .feature-icon {
+      font-size: 26px;
+      line-height: 1;
+      filter: grayscale(60%);
+    }
 
-    /* ── HOW IT WORKS ─────────────────────── */
-    .how { padding: 80px; background: var(--white); position: relative; overflow: hidden; }
-    .steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
-    .step { background: var(--bg); border-radius: var(--radius); padding: 36px 28px; position: relative; transition: transform .25s; }
+    .feature h3 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.5;
+    }
+    .feature p {
+      font-size: 12px;
+      color: #888;
+      line-height: 1.85;
+    }
+
+    /* ── SECTION TITLES ────────────────────────────── */
+    .sec-title {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .sec-title h2 {
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: var(--black);
+    }
+    .sec-title h2 em {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: -1px;
+    }
+    .sec-title p {
+      color: var(--gray);
+      margin-top: 16px;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    /* ── HOW IT WORKS ──────────────────────────────── */
+    .how {
+      padding: 100px 80px;
+      background: var(--light);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 2px;
+    }
+
+    .step {
+      background: var(--white);
+      padding: 48px 36px;
+      position: relative;
+      transition: transform .25s;
+    }
     .step:hover { transform: translateY(-4px); }
-    .step-num { width: 50px; height: 50px; background: linear-gradient(135deg, var(--rose), var(--rose-dark)); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px; margin-bottom: 22px; box-shadow: 0 4px 14px rgba(197,67,108,.3); }
-    .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
-    .step p  { color: var(--muted); font-size: 13px; line-height: 1.75; }
 
-    /* ── SUCCESS STORIES ──────────────────── */
+    .step-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      display: block;
+    }
+
+    .step h3 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -.3px;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .step p {
+      color: var(--gray);
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .step::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 2px;
+      background: var(--black);
+      margin-bottom: 28px;
+    }
+
+    /* ── SUCCESS ───────────────────────────────────── */
     .success {
-      padding: 80px;
-      background: linear-gradient(135deg, #FFF0F5 0%, #F9E0EC 100%);
+      padding: 100px 80px;
+      background: var(--white);
+    }
+
+    .success-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .success-text h2 {
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 28px;
+    }
+    .success-text h2 em {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      text-transform: none;
+      font-weight: 600;
+    }
+
+    .success-text p {
+      color: #555;
+      font-size: 13px;
+      line-height: 1.95;
+      margin-bottom: 18px;
+    }
+
+    .success-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 36px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--light);
+      border: 1px solid var(--mid);
+      padding: 10px 18px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .5px;
+      color: var(--black);
+    }
+
+    .success-visual {
+      background: var(--light);
+      aspect-ratio: 3/4;
       position: relative;
       overflow: hidden;
     }
-    .success-grid { display: block; }
-    .success-text h2 { font-size: 38px; font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
-    .success-text h2 em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--rose); }
-    .success-text p { color: var(--muted); font-size: 15px; line-height: 1.85; margin-bottom: 16px; }
-    .success-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-    .badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: white;
-      border: 2px solid var(--rose-light);
-      border-radius: 100px;
-      padding: 8px 18px;
-      font-size: 13px; font-weight: 600; color: var(--rose-dark);
-      box-shadow: 0 2px 10px rgba(197,67,108,.1);
+
+    .success-visual-inner {
+      position: absolute;
+      inset: 24px;
+      background: var(--mid);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 36px;
     }
-    /* ── ABOUT ────────────────────────────── */
-    .about { padding: 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .about-img { border-radius: var(--radius); overflow: hidden; box-shadow: 0 16px 48px rgba(197,67,108,.2); }
-    .about-img img { width: 100%; height: 460px; object-fit: cover; display: block; }
-    .about-txt h2 { font-size: 38px; font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
-    .about-txt h2 em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--rose); }
-    .about-txt p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-bottom: 16px; }
-    .stats { display: flex; gap: 40px; margin-top: 36px; }
-    .stat h3 { font-size: 38px; font-weight: 700; color: var(--rose); }
-    .stat p   { font-size: 13px; color: var(--muted); }
 
-    /* ── GALLERY STRIP ────────────────────── */
-    .gallery { padding: 0 80px 80px; overflow: hidden; }
-    .gallery-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
-    .gallery-card { border-radius: var(--radius); overflow: hidden; position: relative; height: 280px; box-shadow: 0 6px 24px rgba(197,67,108,.12); }
-    .gallery-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
-    .gallery-card:hover img { transform: scale(1.04); }
-    .gallery-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(42,21,32,.7)); color: var(--white); padding: 24px 20px 18px; font-size: 14px; font-weight: 600; }
+    .success-stat {
+      margin-top: 16px;
+    }
+    .success-stat h3 {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+    .success-stat p {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 6px;
+    }
 
-    /* ── FORM ─────────────────────────────── */
-    .form-sec { padding: 80px; background: linear-gradient(145deg, #C5436C 0%, #9E2E52 100%); position: relative; overflow: hidden; }
-    .form-sec .sec-title h2 { color: var(--white); }
-    .form-sec .sec-title h2 em { color: rgba(255,255,255,.65); }
-    .form-sec .sec-title p { color: rgba(255,255,255,.8); }
-    .form-card { background: var(--white); border-radius: var(--radius); padding: 60px; max-width: 740px; margin: 0 auto; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .fg { display: flex; flex-direction: column; gap: 8px; }
+    /* ── ABOUT ─────────────────────────────────────── */
+    .about {
+      padding: 100px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .about-img {
+      overflow: hidden;
+      position: relative;
+    }
+    .about-img img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(20%);
+      transition: transform .4s;
+    }
+    .about-img:hover img { transform: scale(1.03); }
+
+    .about-txt h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 28px;
+      color: var(--white);
+    }
+    .about-txt h2 em {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      text-transform: none;
+      font-weight: 600;
+    }
+
+    .about-txt p {
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.95;
+      margin-bottom: 18px;
+    }
+    .about-txt strong { color: var(--white); }
+
+    .stats {
+      display: flex;
+      gap: 0;
+      margin-top: 48px;
+      border-top: 1px solid #333;
+      padding-top: 36px;
+    }
+
+    .stat {
+      flex: 1;
+      padding-right: 32px;
+      border-right: 1px solid #333;
+      margin-right: 32px;
+    }
+    .stat:last-child { border-right: none; margin-right: 0; }
+
+    .stat h3 {
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .stat p {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #666;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    /* ── GALLERY ───────────────────────────────────── */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 3px;
+      background: var(--mid);
+    }
+
+    .gallery-card {
+      position: relative;
+      height: 320px;
+      overflow: hidden;
+      background: #ccc;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(40%);
+      transition: transform .5s, filter .5s;
+    }
+    .gallery-card:hover img {
+      transform: scale(1.05);
+      filter: grayscale(0%);
+    }
+
+    .gallery-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,.65));
+      color: var(--white);
+      padding: 32px 24px 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ── FORM ──────────────────────────────────────── */
+    .form-sec {
+      padding: 100px 80px;
+      background: var(--light);
+    }
+
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--mid);
+      padding: 64px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .fg { display: flex; flex-direction: column; gap: 10px; }
     .fg.full { grid-column: 1 / -1; }
-    .fg label { font-size: 13px; font-weight: 600; color: var(--dark); letter-spacing: .4px; }
-    .fg input, .fg select, .fg textarea { border: 1.5px solid #F0D0DC; border-radius: 12px; padding: 14px 18px; font-size: 14px; font-family: 'Inter', sans-serif; color: var(--dark); background: var(--bg); outline: none; transition: border-color .2s; }
-    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--rose); }
+
+    .fg label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+
+    .fg input, .fg select, .fg textarea {
+      border: 1px solid var(--mid);
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 13px;
+      font-family: var(--font);
+      color: var(--black);
+      background: var(--white);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .fg input:focus, .fg select:focus, .fg textarea:focus {
+      border-color: var(--black);
+    }
     .fg textarea { resize: vertical; min-height: 120px; }
-    .form-footer { text-align: center; margin-top: 30px; }
-    .btn-rose { background: linear-gradient(135deg, var(--rose), var(--rose-dark)); color: var(--white); font-weight: 700; font-size: 16px; padding: 18px 64px; border-radius: 100px; border: none; cursor: pointer; transition: transform .2s, box-shadow .2s; }
-    .btn-rose:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
-    .form-note { font-size: 12px; color: var(--muted); margin-top: 12px; }
-    .form-success { display: none; text-align: center; padding: 48px 20px; }
-    .form-success .big-icon { font-size: 72px; margin-bottom: 20px; }
-    .form-success h3 { font-size: 26px; font-weight: 700; color: var(--rose); margin-bottom: 12px; }
-    .form-success p  { color: var(--muted); font-size: 15px; line-height: 1.7; }
 
-    /* ── FOOTER ───────────────────────────── */
-    footer { background: var(--dark); color: rgba(255,255,255,.65); padding: 48px 80px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-    .foot-logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--white); }
-    footer p { font-size: 13px; }
+    .form-footer { text-align: center; margin-top: 36px; }
 
-    /* ── SCROLL REVEAL ────────────────────── */
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .btn-form {
+      background: var(--black);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 20px 72px;
+      border: none;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s;
+    }
+    .btn-form:hover { opacity: .75; transform: translateY(-2px); }
 
-    /* ── RESPONSIVE ───────────────────────── */
+    .form-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 16px;
+      letter-spacing: .5px;
+    }
+
+    .form-success { display: none; text-align: center; padding: 60px 20px; }
+    .form-success .big-icon { font-size: 64px; margin-bottom: 24px; }
+    .form-success h3 {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .form-success p { color: var(--gray); font-size: 14px; line-height: 1.8; }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    footer {
+      background: var(--black);
+      color: #555;
+      padding: 48px 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .foot-logo {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    footer p {
+      font-size: 11px;
+      letter-spacing: .5px;
+    }
+
+    /* ── SCROLL REVEAL ─────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── DIVIDER ───────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--mid);
+      margin: 0 80px;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .features { grid-template-columns: repeat(2,1fr); }
+      .success-grid { grid-template-columns: 1fr; }
+      .success-visual { display: none; }
+    }
+
     @media (max-width: 900px) {
-      nav { padding: 14px 20px; }
+      nav { padding: 16px 24px; }
       .nav-links { display: none; }
-      .hero { grid-template-columns: 1fr; margin: 16px; min-height: auto; }
+      .hero { grid-template-columns: 1fr; }
       .hero-right { display: none; }
-      .hero-left { padding: 52px 32px; border-radius: var(--radius); }
-      .hero-left h1 { font-size: 32px; }
-      .features { grid-template-columns: repeat(2,1fr); padding: 48px 24px; }
+      .hero-left { padding: 60px 24px; }
       .how { padding: 60px 24px; }
-      .steps { grid-template-columns: 1fr 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 2px; }
       .success { padding: 60px 24px; }
-      .about { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
-      .gallery { padding: 0 24px 60px; }
-      .gallery-grid { grid-template-columns: 1fr; }
+      .about { grid-template-columns: 1fr; padding: 60px 24px; }
+      .gallery { grid-template-columns: 1fr; }
       .form-sec { padding: 60px 24px; }
       .form-card { padding: 36px 24px; }
       .form-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; text-align: center; padding: 40px 24px; }
+      .divider { margin: 0 24px; }
+      .features { grid-template-columns: 1fr 1fr; }
     }
+
     @media (max-width: 600px) {
-      .steps { grid-template-columns: 1fr; }
+      .features { grid-template-columns: 1fr; }
+      .stats { flex-direction: column; gap: 24px; }
+      .stat { border-right: none; margin-right: 0; padding-right: 0; border-bottom: 1px solid #333; padding-bottom: 24px; margin-bottom: 0; }
+      .stat:last-child { border-bottom: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══ NAV ═══════════════════════════════════════════════════════ -->
+<!-- ═══ NAV ═══════════════════════════════════════════════════ -->
 <nav>
   <a class="nav-logo" href="#">ProfitCast</a>
   <ul class="nav-links">
@@ -271,7 +776,7 @@
       <button class="lang-btn"        onclick="setLang('es')">ES</button>
     </div>
     <a class="nav-tg" href="https://t.me/profitcast_official" target="_blank">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.012 9.488c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.875.733z"/>
       </svg>
       <span data-i18n="nav.contact">Write to us</span>
@@ -279,83 +784,108 @@
   </div>
 </nav>
 
-<!-- ═══ HERO ══════════════════════════════════════════════════════ -->
-<section class="hero">
+<!-- ═══ HERO ══════════════════════════════════════════════════ -->
+<section class="hero" id="home">
   <div class="hero-left">
     <span class="hero-badge" data-i18n="hero.badge">🎥 Live Streaming Careers</span>
     <h1 data-i18n-html="hero.h1">Your career in<br><em>live streaming</em><br>starts here</h1>
     <p class="hero-sub" data-i18n="hero.sub">Join ProfitCast — a worldwide live streaming company with 7+ years of experience helping people build a successful career online.</p>
-    <a href="#apply" class="btn-white" data-i18n="hero.btn">Apply Now →</a>
+    <a href="#apply" class="btn-black" data-i18n="hero.btn">Apply Now →</a>
+
+    <div class="hero-scroll">
+      <span class="hero-scroll-line"></span>
+      Scroll
+    </div>
   </div>
+
   <div class="hero-right">
-    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=900&auto=format&fit=crop&q=80" alt="Live streaming setup" onerror="this.parentElement.style.background='#F2C4D4'" />
+    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=900&auto=format&fit=crop&q=80"
+         alt="Live streaming setup"
+         onerror="this.parentElement.style.background='#d0d0d0'" />
     <div class="hero-overlay"></div>
-    <!-- Strawberry rain -->
     <div class="straw-rain" id="strawRain"></div>
+
+    <div class="hero-socials">
+      <a href="#" title="Instagram">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="#" title="Twitter">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+      <a href="#" title="TikTok">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- ═══ FEATURES ══════════════════════════════════════════════════ -->
+<!-- ═══ FEATURES ══════════════════════════════════════════════ -->
 <section class="features reveal">
   <div class="feature">
     <div class="feature-icon">🏠</div>
-    <h3 data-i18n="f1.title">Work From<br>Anywhere</h3>
+    <h3 data-i18n="f1.title">Work From Anywhere</h3>
     <p data-i18n="f1.text">Home, studio or anywhere you feel comfortable</p>
   </div>
   <div class="feature">
     <div class="feature-icon">⏰</div>
-    <h3 data-i18n="f2.title">Flexible<br>Schedule</h3>
+    <h3 data-i18n="f2.title">Flexible Schedule</h3>
     <p data-i18n="f2.text">Choose your own hours and working days</p>
   </div>
   <div class="feature">
     <div class="feature-icon">💸</div>
-    <h3 data-i18n="f3.title">Daily<br>Payments</h3>
+    <h3 data-i18n="f3.title">Daily Payments</h3>
     <p data-i18n="f3.text">Get paid every day — no waiting, no delays</p>
   </div>
   <div class="feature">
     <div class="feature-icon">🌍</div>
-    <h3 data-i18n="f4.title">Global<br>Audience</h3>
+    <h3 data-i18n="f4.title">Global Audience</h3>
     <p data-i18n="f4.text">Connect with viewers from around the world</p>
   </div>
 </section>
 
-<!-- ═══ HOW IT WORKS ══════════════════════════════════════════════ -->
-<section class="how reveal" id="how" style="position:relative; overflow:hidden;">
+<!-- ═══ HOW IT WORKS ══════════════════════════════════════════ -->
+<section class="how reveal" id="how">
   <div class="sec-title">
     <h2 data-i18n-html="how.title">How it <em>works</em></h2>
     <p data-i18n="how.sub">Four simple steps to start your streaming career</p>
   </div>
   <div class="steps">
     <div class="step">
-      <div class="step-num">1</div>
+      <span class="step-num">01</span>
       <h3 data-i18n="step1.title">Submit Your Application</h3>
       <p data-i18n="step1.text">Fill out the short form on this page. Our team reviews every application personally.</p>
     </div>
     <div class="step">
-      <div class="step-num">2</div>
+      <span class="step-num">02</span>
       <h3 data-i18n="step2.title">We Reply Within 1 Hour</h3>
       <p data-i18n="step2.text">We process your application within one hour and write to you directly via Telegram or WhatsApp.</p>
     </div>
     <div class="step">
-      <div class="step-num">3</div>
+      <span class="step-num">03</span>
       <h3 data-i18n="step3.title">Meet Your Manager</h3>
       <p data-i18n="step3.text">Your personal manager will explain everything in detail and together you'll choose the most convenient time for your interview.</p>
     </div>
     <div class="step">
-      <div class="step-num">4</div>
+      <span class="step-num">04</span>
       <h3 data-i18n="step4.title">Start Your Journey</h3>
       <p data-i18n="step4.text">At the interview you'll choose a convenient day for your internship — and your new career begins!</p>
     </div>
   </div>
 </section>
 
-<!-- ═══ SUCCESS STORIES ══════════════════════════════════════════ -->
+<!-- ═══ SUCCESS ════════════════════════════════════════════════ -->
 <section class="success reveal" id="success">
   <div class="success-grid">
     <div class="success-text">
-      <div class="sec-title" style="text-align:left; margin-bottom:28px;">
-        <h2 data-i18n-html="success.title">Our girls <em>grow here</em></h2>
-      </div>
+      <h2 data-i18n-html="success.title">Our girls <em>grow here</em></h2>
       <p data-i18n="success.p1">Many of our girls start with us and gradually build their own audience on Instagram and TikTok — then begin working for themselves. ProfitCast is not just a job, it's a launchpad for your personal brand.</p>
       <p data-i18n="success.p2">Maximum flexibility and convenience: you choose your schedule, work from home, and receive payment every single day. From you — only desire, determination, and ambition. We take care of everything else.</p>
       <div class="success-badges">
@@ -365,13 +895,32 @@
         <span class="badge">🚀 <span data-i18n="badge4">Work for yourself</span></span>
       </div>
     </div>
+
+    <div class="success-visual">
+      <div class="success-visual-inner">
+        <div class="success-stat">
+          <h3>7+</h3>
+          <p data-i18n-html="stat1">Years on<br>the market</p>
+        </div>
+        <div class="success-stat">
+          <h3>50+</h3>
+          <p data-i18n-html="stat2">Countries<br>worldwide</p>
+        </div>
+        <div class="success-stat">
+          <h3>1000+</h3>
+          <p data-i18n-html="stat3">Active<br>broadcasters</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ═══ ABOUT ══════════════════════════════════════════════════════ -->
+<!-- ═══ ABOUT ══════════════════════════════════════════════════ -->
 <section class="about reveal" id="about">
   <div class="about-img">
-    <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&auto=format&fit=crop&q=80" alt="Content creation" onerror="this.style.background='#F2C4D4'; this.style.height='460px'"/>
+    <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&auto=format&fit=crop&q=80"
+         alt="Content creation"
+         onerror="this.style.background='#333'; this.style.height='520px'" />
   </div>
   <div class="about-txt">
     <h2 data-i18n-html="about.h2">We connect <em>talent</em><br>with opportunity</h2>
@@ -386,25 +935,29 @@
   </div>
 </section>
 
-<!-- ═══ GALLERY ════════════════════════════════════════════════════ -->
+<!-- ═══ GALLERY ════════════════════════════════════════════════ -->
 <section class="gallery reveal">
-  <div class="gallery-grid">
-    <div class="gallery-card">
-      <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=700&auto=format&fit=crop&q=80" alt="Camera setup" onerror="this.style.background='#F2C4D4'"/>
-      <div class="gallery-label" data-i18n="gal1">Professional Setup</div>
-    </div>
-    <div class="gallery-card">
-      <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=700&auto=format&fit=crop&q=80" alt="Content creator" onerror="this.style.background='#E8A0B8'"/>
-      <div class="gallery-label" data-i18n="gal2">Engage Your Audience</div>
-    </div>
-    <div class="gallery-card">
-      <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=700&auto=format&fit=crop&q=80" alt="Live streaming" onerror="this.style.background='#D4527A'"/>
-      <div class="gallery-label" data-i18n="gal3">Go Live Worldwide</div>
-    </div>
+  <div class="gallery-card">
+    <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=700&auto=format&fit=crop&q=80"
+         alt="Camera setup"
+         onerror="this.style.background='#555'" />
+    <div class="gallery-label" data-i18n="gal1">Professional Setup</div>
+  </div>
+  <div class="gallery-card">
+    <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=700&auto=format&fit=crop&q=80"
+         alt="Content creator"
+         onerror="this.style.background='#444'" />
+    <div class="gallery-label" data-i18n="gal2">Engage Your Audience</div>
+  </div>
+  <div class="gallery-card">
+    <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=700&auto=format&fit=crop&q=80"
+         alt="Live streaming"
+         onerror="this.style.background='#333'" />
+    <div class="gallery-label" data-i18n="gal3">Go Live Worldwide</div>
   </div>
 </section>
 
-<!-- ═══ APPLICATION FORM ═══════════════════════════════════════════ -->
+<!-- ═══ APPLICATION FORM ═══════════════════════════════════════ -->
 <section class="form-sec reveal" id="apply">
   <div class="sec-title">
     <h2 data-i18n-html="form.title">Ready to <em>start?</em></h2>
@@ -437,30 +990,29 @@
           </div>
         </div>
         <div class="form-footer">
-          <button type="submit" class="btn-rose" id="submitBtn" data-i18n="form.btn">Send Application →</button>
+          <button type="submit" class="btn-form" id="submitBtn" data-i18n="form.btn">Send Application →</button>
           <p class="form-note" data-i18n="form.note">By submitting this form you agree to be contacted by our team via Telegram or WhatsApp</p>
         </div>
       </form>
     </div>
     <div class="form-success" id="formSuccess">
-      <div class="big-icon">✅</div>
+      <div class="big-icon">✓</div>
       <h3 data-i18n="success.h3">Application Received!</h3>
       <p data-i18n="success.msg">Thank you! Our manager will contact you within 1 hour.<br />Check your Telegram or WhatsApp for our message.</p>
     </div>
   </div>
-
 </section>
 
-<!-- ═══ FOOTER ═════════════════════════════════════════════════════ -->
+<!-- ═══ FOOTER ═════════════════════════════════════════════════ -->
 <footer>
   <span class="foot-logo">ProfitCast</span>
   <p>© 2026 ProfitCast · Working worldwide since 2018</p>
   <p data-i18n="footer.tag">Live Streaming &amp; Broadcasting</p>
 </footer>
 
-<!-- ═══ SCRIPTS ════════════════════════════════════════════════════ -->
+<!-- ═══ SCRIPTS ════════════════════════════════════════════════ -->
 <script>
-/* ── TRANSLATIONS ───────────────────────────────────────────── */
+/* ── TRANSLATIONS ─────────────────────────────────────────── */
 const T = {
   en: {
     'nav.about':'About Us','nav.how':'How It Works','nav.apply':'Apply Now','nav.contact':'Write to us',
@@ -468,10 +1020,10 @@ const T = {
     'hero.h1':'Your career in<br><em>live streaming</em><br>starts here',
     'hero.sub':'Join ProfitCast — a worldwide live streaming company with 7+ years of experience helping people build a successful career online.',
     'hero.btn':'Apply Now →',
-    'f1.title':'Work From<br>Anywhere','f1.text':'Home, studio or anywhere you feel comfortable',
-    'f2.title':'Flexible<br>Schedule','f2.text':'Choose your own hours and working days',
-    'f3.title':'Daily<br>Payments','f3.text':'Get paid every day — no waiting, no delays',
-    'f4.title':'Global<br>Audience','f4.text':'Connect with viewers from around the world',
+    'f1.title':'Work From Anywhere','f1.text':'Home, studio or anywhere you feel comfortable',
+    'f2.title':'Flexible Schedule','f2.text':'Choose your own hours and working days',
+    'f3.title':'Daily Payments','f3.text':'Get paid every day — no waiting, no delays',
+    'f4.title':'Global Audience','f4.text':'Connect with viewers from around the world',
     'how.title':'How it <em>works</em>','how.sub':'Four simple steps to start your streaming career',
     'step1.title':'Submit Your Application','step1.text':'Fill out the short form on this page. Our team reviews every application personally.',
     'step2.title':'We Reply Within 1 Hour','step2.text':'We process your application within one hour and write to you directly via Telegram or WhatsApp.',
@@ -499,23 +1051,23 @@ const T = {
     'hero.h1':'Твоя карьера в<br><em>прямых эфирах</em><br>начинается здесь',
     'hero.sub':'Присоединяйся к ProfitCast — международной компании с опытом 7+ лет в создании успешных онлайн-карьер.',
     'hero.btn':'Подать заявку →',
-    'f1.title':'Работа из<br>любой точки','f1.text':'Дом, студия или любое удобное место',
-    'f2.title':'Гибкий<br>график','f2.text':'Выбирай удобные часы и рабочие дни',
-    'f3.title':'Выплаты<br>день в день','f3.text':'Получай оплату каждый день без задержек',
-    'f4.title':'Глобальная<br>аудитория','f4.text':'Общайся со зрителями со всего мира',
+    'f1.title':'Работа из любой точки','f1.text':'Дом, студия или любое удобное место',
+    'f2.title':'Гибкий график','f2.text':'Выбирай удобные часы и рабочие дни',
+    'f3.title':'Выплаты день в день','f3.text':'Получай оплату каждый день без задержек',
+    'f4.title':'Глобальная аудитория','f4.text':'Общайся со зрителями со всего мира',
     'how.title':'Как это <em>работает</em>','how.sub':'Четыре простых шага к карьере стримера',
     'step1.title':'Подай заявку','step1.text':'Заполни короткую форму на этой странице. Каждую заявку рассматривают лично.',
     'step2.title':'Ответим в течение часа','step2.text':'Обработаем заявку за один час и напишем тебе в Telegram или WhatsApp.',
     'step3.title':'Познакомься с менеджером','step3.text':'Личный менеджер подробно расскажет обо всём и поможет выбрать удобное время для собеседования.',
     'step4.title':'Начни свой путь','step4.text':'На собеседовании выберешь удобный день для стажировки — и новая карьера начнётся!',
     'success.title':'Наши девушки <em>растут здесь</em>',
-    'success.p1':'Многие наши девушки начинают с нас и постепенно набирают собственную аудиторию в Instagram и TikTok — затем начинают работать на себя. ProfitCast — это не просто работа, это стартовая площадка.',
-    'success.p2':'Максимально гибкая и удобная работа: сам выбираешь график, работаешь из дома, получаешь оплату каждый день. От тебя нужно только желание, целеустремлённость и амбициозность. Обо всём остальном позаботимся мы.',
+    'success.p1':'Многие наши девушки начинают с нас и постепенно набирают собственную аудиторию в Instagram и TikTok — затем начинают работать на себя.',
+    'success.p2':'Максимально гибкая работа: сам выбираешь график, работаешь из дома, получаешь оплату каждый день. От тебя нужно только желание, целеустремлённость и амбициозность.',
     'badge1':'Выплаты день в день','badge2':'Индивидуальный график','badge3':'Рост в Instagram и TikTok','badge4':'Работа на себя',
     'about.h2':'Мы соединяем <em>талант</em><br>с возможностью',
-    'about.p1':'ProfitCast — профессиональная компания в сфере live-стриминга, специализирующаяся на живом общении с онлайн-аудиторией. Мы помогаем людям построить устойчивую и хорошо оплачиваемую карьеру.',
-    'about.p2':'За <strong>7+ лет работы</strong> по всему миру мы помогли тысячам людей открыть новый карьерный путь — гибкий, творческий и хорошо оплачиваемый.',
-    'about.p3':'Мы обеспечиваем всем необходимым с первого дня: обучение, техническая поддержка, личный менеджер и доступ к платформам с крупнейшей аудиторией.',
+    'about.p1':'ProfitCast — профессиональная компания в сфере live-стриминга, специализирующаяся на живом общении с онлайн-аудиторией.',
+    'about.p2':'За <strong>7+ лет работы</strong> по всему миру мы помогли тысячам людей открыть новый карьерный путь.',
+    'about.p3':'Мы обеспечиваем всем необходимым с первого дня: обучение, техническая поддержка, личный менеджер и доступ к платформам.',
     'stat1':'Лет на<br>рынке','stat2':'Стран<br>по всему миру','stat3':'Активных<br>стримеров',
     'gal1':'Профессиональная студия','gal2':'Вовлекай аудиторию','gal3':'Выходи в эфир по всему миру',
     'form.title':'Готова <em>начать?</em>','form.sub':'Заполни форму и мы свяжемся с тобой в течение 1 часа',
@@ -530,18 +1082,18 @@ const T = {
     'hero.h1':'Cariera ta în<br><em>streaming live</em><br>începe aici',
     'hero.sub':'Alătură-te ProfitCast — o companie internațională cu 7+ ani de experiență în construirea carierei online.',
     'hero.btn':'Aplică acum →',
-    'f1.title':'Lucrează de<br>oriunde','f1.text':'Acasă, studio sau oriunde te simți confortabil',
-    'f2.title':'Program<br>flexibil','f2.text':'Alege propriile ore și zile de lucru',
-    'f3.title':'Plăți<br>zilnice','f3.text':'Primești plata în fiecare zi, fără întârzieri',
-    'f4.title':'Audiență<br>globală','f4.text':'Conectează-te cu privitori din întreaga lume',
+    'f1.title':'Lucrează de oriunde','f1.text':'Acasă, studio sau oriunde te simți confortabil',
+    'f2.title':'Program flexibil','f2.text':'Alege propriile ore și zile de lucru',
+    'f3.title':'Plăți zilnice','f3.text':'Primești plata în fiecare zi, fără întârzieri',
+    'f4.title':'Audiență globală','f4.text':'Conectează-te cu privitori din întreaga lume',
     'how.title':'Cum <em>funcționează</em>','how.sub':'Patru pași simpli pentru a-ți începe cariera',
     'step1.title':'Trimite cererea','step1.text':'Completează formularul scurt de pe această pagină. Echipa noastră analizează fiecare cerere personal.',
     'step2.title':'Răspundem în 1 oră','step2.text':'Procesăm cererea ta într-o oră și îți scriem direct prin Telegram sau WhatsApp.',
     'step3.title':'Întâlnește-ți managerul','step3.text':'Managerul personal îți va explica totul în detaliu și veți alege împreună momentul potrivit pentru interviu.',
     'step4.title':'Începe călătoria','step4.text':'La interviu alegi ziua convenabilă pentru stagiu — și noua ta carieră începe!',
     'success.title':'Fetele noastre <em>cresc aici</em>',
-    'success.p1':'Multe dintre fetele noastre încep cu noi și își construiesc treptat propria audiență pe Instagram și TikTok — apoi lucrează pe cont propriu. ProfitCast nu e doar un job, e o platformă de lansare.',
-    'success.p2':'Muncă maximă de flexibilă: îți alegi programul, lucrezi de acasă, primești plata zilnic. De la tine — doar dorință, determinare și ambiție. De restul ne ocupăm noi.',
+    'success.p1':'Multe dintre fetele noastre încep cu noi și își construiesc treptat propria audiență pe Instagram și TikTok.',
+    'success.p2':'Muncă maximă de flexibilă: îți alegi programul, lucrezi de acasă, primești plata zilnic.',
     'badge1':'Plăți zilnice','badge2':'Program individual','badge3':'Creștere pe Instagram & TikTok','badge4':'Lucrează pe cont propriu',
     'about.h2':'Conectăm <em>talentul</em><br>cu oportunitatea',
     'about.p1':'ProfitCast este o companie profesionistă de streaming live, specializată în comunicarea live cu audiențe online.',
@@ -561,18 +1113,18 @@ const T = {
     'hero.h1':'Tu carrera en<br><em>streaming en vivo</em><br>comienza aquí',
     'hero.sub':'Únete a ProfitCast — una empresa internacional con 7+ años de experiencia ayudando a construir carreras online exitosas.',
     'hero.btn':'Aplica ahora →',
-    'f1.title':'Trabaja desde<br>cualquier lugar','f1.text':'Casa, estudio o donde te sientas cómoda',
-    'f2.title':'Horario<br>flexible','f2.text':'Elige tus propias horas y días de trabajo',
-    'f3.title':'Pagos<br>diarios','f3.text':'Recibe tu pago cada día sin demoras',
-    'f4.title':'Audiencia<br>global','f4.text':'Conecta con espectadores de todo el mundo',
+    'f1.title':'Trabaja desde cualquier lugar','f1.text':'Casa, estudio o donde te sientas cómoda',
+    'f2.title':'Horario flexible','f2.text':'Elige tus propias horas y días de trabajo',
+    'f3.title':'Pagos diarios','f3.text':'Recibe tu pago cada día sin demoras',
+    'f4.title':'Audiencia global','f4.text':'Conecta con espectadores de todo el mundo',
     'how.title':'Cómo <em>funciona</em>','how.sub':'Cuatro pasos simples para comenzar tu carrera',
     'step1.title':'Envía tu solicitud','step1.text':'Completa el formulario corto en esta página. Nuestro equipo revisa cada solicitud personalmente.',
     'step2.title':'Respondemos en 1 hora','step2.text':'Procesamos tu solicitud en una hora y te escribimos directamente por Telegram o WhatsApp.',
     'step3.title':'Conoce a tu manager','step3.text':'Tu manager personal te explicará todo en detalle y juntos elegirán el momento más conveniente para la entrevista.',
     'step4.title':'Comienza tu viaje','step4.text':'¡En la entrevista elegirás el día conveniente para tu pasantía y tu nueva carrera comenzará!',
     'success.title':'Nuestras chicas <em>crecen aquí</em>',
-    'success.p1':'Muchas de nuestras chicas comienzan con nosotros y gradualmente construyen su propia audiencia en Instagram y TikTok — luego trabajan por cuenta propia. ProfitCast no es solo un trabajo, es una plataforma de lanzamiento.',
-    'success.p2':'Trabajo maximamente flexible: eliges tu horario, trabajas desde casa, recibes pago cada día. De ti — solo deseo, determinación y ambición. Nosotros nos encargamos del resto.',
+    'success.p1':'Muchas de nuestras chicas comienzan con nosotros y gradualmente construyen su propia audiencia en Instagram y TikTok.',
+    'success.p2':'Trabajo maximamente flexible: eliges tu horario, trabajas desde casa, recibes pago cada día.',
     'badge1':'Pagos diarios','badge2':'Horario individual','badge3':'Crecer en Instagram y TikTok','badge4':'Trabaja para ti misma',
     'about.h2':'Conectamos el <em>talento</em><br>con la oportunidad',
     'about.p1':'ProfitCast es una empresa profesional de streaming en vivo especializada en la comunicación en directo con audiencias online.',
@@ -592,16 +1144,13 @@ let currentLang = 'en';
 
 function setLang(lang) {
   currentLang = lang;
-  // update buttons
   document.querySelectorAll('.lang-btn').forEach(b => {
     b.classList.toggle('active', b.textContent === lang.toUpperCase());
   });
-  // update text nodes
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (T[lang][key] !== undefined) el.textContent = T[lang][key];
   });
-  // update HTML nodes (with em tags etc)
   document.querySelectorAll('[data-i18n-html]').forEach(el => {
     const key = el.getAttribute('data-i18n-html');
     if (T[lang][key] !== undefined) el.innerHTML = T[lang][key];
@@ -609,29 +1158,29 @@ function setLang(lang) {
   document.documentElement.lang = lang;
 }
 
-/* ── STRAWBERRY RAIN ────────────────────────────────────────── */
+/* ── STRAWBERRY RAIN ──────────────────────────────────────── */
 (function() {
   const container = document.getElementById('strawRain');
-  const count = 14;
+  const count = 10;
   for (let i = 0; i < count; i++) {
     const s = document.createElement('span');
     s.className = 'straw';
     s.textContent = '🍓';
     s.style.left = (Math.random() * 100) + '%';
-    s.style.fontSize = (14 + Math.random() * 14) + 'px';
-    s.style.animationDuration = (4 + Math.random() * 5) + 's';
-    s.style.animationDelay = (Math.random() * 6) + 's';
+    s.style.fontSize = (12 + Math.random() * 12) + 'px';
+    s.style.animationDuration = (5 + Math.random() * 6) + 's';
+    s.style.animationDelay = (Math.random() * 8) + 's';
     container.appendChild(s);
   }
 })();
 
-/* ── SCROLL REVEAL ───────────────────────────────────────────── */
+/* ── SCROLL REVEAL ─────────────────────────────────────────── */
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-}, { threshold: 0.12 });
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-/* ── FORM SUBMIT ─────────────────────────────────────────────── */
+/* ── FORM SUBMIT ───────────────────────────────────────────── */
 const BOT_TOKEN = '8635637632:AAHbN2u39OVfV3-G_xJU0x5TjYVc-hBwfZQ';
 const CHAT_ID   = '7577571032';
 const W3F_KEY   = '1d3952a6-be43-4373-be41-4d1c541eb150';
@@ -685,6 +1234,5 @@ document.getElementById('applyForm').addEventListener('submit', async (e) => {
   }
 });
 </script>
-
 </body>
 </html>
