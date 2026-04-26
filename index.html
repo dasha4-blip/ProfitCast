@@ -6,767 +6,579 @@
   <title>ProfitCast — Live Streaming Career</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     :root {
-      --black:  #0e0e0e;
-      --white:  #ffffff;
-      --light:  #f4f4f4;
-      --mid:    #e8e8e8;
-      --gray:   #888;
-      --muted:  #aaa;
-      --radius: 4px;
-      --font:   'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --bg:      #0a0a0a;
+      --surface: #121212;
+      --surface2:#181818;
+      --border:  #242424;
+      --gold:    #C9A96E;
+      --gold-lt: #E0C48A;
+      --white:   #EDE8E3;
+      --gray:    #848079;
+      --muted:   #504C46;
+      --red:     #c0392b;
+      --font:    'Inter', sans-serif;
+      --serif:   'Playfair Display', serif;
     }
 
     body {
       font-family: var(--font);
-      background: var(--white);
-      color: var(--black);
+      background: var(--bg);
+      color: var(--white);
       line-height: 1.6;
       overflow-x: hidden;
     }
 
-    /* ── NAV ──────────────────────────────────────── */
-    nav {
+    /* grain */
+    body::after {
+      content: '';
       position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 56px;
-      background: rgba(255,255,255,0.94);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #eee;
-      flex-wrap: wrap;
-      gap: 10px;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 998;
     }
 
+    /* progress bar */
+    #progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: var(--gold);
+      width: 0%;
+      z-index: 999;
+      transition: width .1s linear;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 56px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap; gap: 10px;
+    }
     .nav-logo {
-      font-family: var(--font);
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--black);
-      text-decoration: none;
+      font-family: var(--font); font-size: 12px; font-weight: 700;
+      letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); text-decoration: none;
     }
-
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a {
-      text-decoration: none;
-      color: var(--black);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      transition: opacity .2s;
+      text-decoration: none; color: var(--gray);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      transition: color .2s;
     }
-    .nav-links a:hover { opacity: .45; }
-
-    .nav-right { display: flex; align-items: center; gap: 20px; }
-
+    .nav-links a:hover { color: var(--white); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
     .nav-tg {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--black);
-      text-decoration: none;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      border: 1px solid var(--black);
-      padding: 8px 18px;
-      transition: background .2s, color .2s;
+      display: flex; align-items: center; gap: 8px;
+      background: var(--gold); color: var(--bg);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 10px 22px; text-decoration: none;
+      transition: background .2s;
     }
-    .nav-tg:hover { background: var(--black); color: var(--white); }
-    .nav-tg svg { flex-shrink: 0; }
-
-    /* Language switcher */
-    .lang-switcher { display: flex; gap: 4px; }
+    .nav-tg:hover { background: var(--gold-lt); }
+    .lang-switcher { display: flex; gap: 2px; }
     .lang-btn {
-      padding: 5px 10px;
-      border: 1px solid #ccc;
-      background: transparent;
-      color: var(--gray);
-      font-size: 10px;
-      font-weight: 700;
-      font-family: var(--font);
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: all .2s;
-      text-transform: uppercase;
+      padding: 6px 10px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted);
+      font-size: 10px; font-weight: 700;
+      font-family: var(--font); letter-spacing: 1px;
+      cursor: pointer; transition: all .2s; text-transform: uppercase;
     }
     .lang-btn.active, .lang-btn:hover {
-      background: var(--black);
-      color: var(--white);
-      border-color: var(--black);
+      background: var(--gold); color: var(--bg); border-color: var(--gold);
     }
 
-    /* ── HERO ──────────────────────────────────────── */
+    /* ── HERO ── */
     .hero {
       min-height: 100vh;
-      background: linear-gradient(160deg, #f0f0f0 0%, #e6e6e6 50%, #d8d8d8 100%);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding-top: 80px;
-      position: relative;
-      overflow: hidden;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 160px 56px 88px;
+      position: relative; overflow: hidden;
     }
-
-    .hero-left {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 80px 56px 80px;
-      position: relative;
-      z-index: 2;
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 70% at 60% 30%, #1c1408 0%, var(--bg) 65%);
     }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--black);
-      color: var(--white);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      padding: 7px 18px;
-      width: fit-content;
-      margin-bottom: 40px;
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,169,110,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,169,110,.035) 1px, transparent 1px);
+      background-size: 72px 72px;
     }
-
-    .hero-left h1 {
-      font-size: clamp(42px, 6vw, 76px);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -2px;
-      text-transform: uppercase;
-      margin-bottom: 28px;
-      color: var(--black);
+    .hero-watermark {
+      position: absolute; right: 48px; bottom: 60px;
+      font-family: var(--serif); font-size: 180px; font-weight: 700;
+      line-height: 1; letter-spacing: -6px;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(201,169,110,.1);
+      user-select: none; z-index: 1; pointer-events: none;
     }
-    .hero-left h1 em {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-weight: 600;
-      text-transform: none;
-      letter-spacing: -1px;
+    .hero-content { position: relative; z-index: 2; max-width: 860px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      color: var(--gold); font-size: 10px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase; margin-bottom: 32px;
     }
-
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 28px; height: 1px; background: var(--gold);
+    }
+    .hero h1 {
+      font-family: var(--serif); font-size: clamp(54px, 8vw, 108px);
+      font-weight: 700; line-height: 1; letter-spacing: -3px;
+      margin-bottom: 40px; color: var(--white);
+    }
+    .hero h1 em { color: var(--gold); font-style: italic; }
+    .hero-bottom {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 40px; flex-wrap: wrap;
+    }
     .hero-sub {
-      color: #555;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.9;
-      margin-bottom: 48px;
-      max-width: 400px;
+      color: var(--gray); font-size: 14px; line-height: 1.85;
+      max-width: 420px;
+    }
+    .hero-cta { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+    .btn-gold {
+      display: inline-block; background: var(--gold); color: var(--bg);
+      font-size: 10px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; padding: 18px 48px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background .2s, transform .2s; white-space: nowrap;
+    }
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-ghost {
+      display: inline-block; background: transparent; color: var(--white);
+      font-size: 10px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; padding: 18px 48px;
+      text-decoration: none; border: 1px solid var(--border);
+      transition: border-color .2s, color .2s; white-space: nowrap;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap { background: var(--gold); overflow: hidden; padding: 13px 0; }
+    .marquee-track {
+      display: flex; white-space: nowrap;
+      animation: marquee 24s linear infinite;
+    }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 24px;
+      padding: 0 40px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--bg);
+    }
+    .marquee-sep {
+      width: 4px; height: 4px; background: rgba(10,10,10,.4);
+      border-radius: 50%; flex-shrink: 0;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
-    .btn-black {
-      display: inline-block;
-      background: var(--black);
-      color: var(--white);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      padding: 18px 48px;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      width: fit-content;
-      transition: opacity .2s, transform .2s;
+    /* ── SECTION HELPERS ── */
+    .sec-eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      color: var(--gold); font-size: 10px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px;
     }
-    .btn-black:hover { opacity: .75; transform: translateY(-2px); }
+    .sec-eyebrow::before {
+      content: ''; width: 20px; height: 1px; background: var(--gold);
+    }
+    .sec-h2 {
+      font-family: var(--serif); font-size: clamp(30px, 5vw, 52px);
+      font-weight: 700; line-height: 1.08; letter-spacing: -1.5px;
+      color: var(--white); margin-bottom: 20px;
+    }
+    .sec-h2 em { color: var(--gold); font-style: italic; }
+    .sec-p { color: var(--gray); font-size: 13px; line-height: 1.9; max-width: 560px; }
+    .sec-pad { padding: 96px 56px; }
+    .sec-border-b { border-bottom: 1px solid var(--border); }
 
-    .hero-right {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
+    /* ── INCOME ── */
+    .income-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 72px; align-items: start; margin-top: 56px;
     }
-
-    .hero-right img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(30%);
+    .income-numbers {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px; background: var(--border);
     }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,.08) 0%, transparent 60%);
+    .inc-card {
+      background: var(--surface); padding: 36px 28px;
+      transition: background .25s;
     }
-
-    /* Strawberry rain — subtle */
-    .straw-rain {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 3;
+    .inc-card:hover { background: var(--surface2); }
+    .inc-num {
+      font-family: var(--serif); font-size: 48px; font-weight: 700;
+      color: var(--gold); line-height: 1; letter-spacing: -2px;
     }
-    .straw {
-      position: absolute;
-      top: -40px;
-      font-size: 18px;
-      opacity: 0;
-      animation: strawFall linear infinite;
-      user-select: none;
-      filter: grayscale(60%);
+    .inc-label {
+      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted); margin-top: 10px; line-height: 1.65;
     }
-    @keyframes strawFall {
-      0%   { transform: translateY(-40px) rotate(0deg);   opacity: 0; }
-      10%  { opacity: 0.3; }
-      90%  { opacity: 0.2; }
-      100% { transform: translateY(110vh) rotate(400deg); opacity: 0; }
+    .income-sources {
+      display: flex; flex-direction: column; gap: 1px;
+      background: var(--border); margin-top: 32px;
     }
-
-    /* Socials on hero */
-    .hero-socials {
-      position: absolute;
-      right: 32px;
-      bottom: 48px;
-      display: flex;
-      gap: 16px;
-      z-index: 4;
+    .inc-src {
+      background: var(--surface); padding: 14px 20px;
+      display: flex; align-items: flex-start; gap: 14px;
+      font-size: 12px; color: var(--gray); line-height: 1.7;
     }
-    .hero-socials a {
-      color: var(--black);
-      font-size: 13px;
-      text-decoration: none;
-      transition: opacity .2s;
+    .inc-src-dot {
+      width: 6px; height: 6px; background: var(--gold);
+      border-radius: 50%; flex-shrink: 0; margin-top: 5px;
     }
-    .hero-socials a:hover { opacity: .4; }
-
-    /* Scroll indicator */
-    .hero-scroll {
-      position: absolute;
-      bottom: 40px;
-      left: 56px;
-      z-index: 4;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 9px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #666;
-    }
-    .hero-scroll-line {
-      width: 40px;
-      height: 1px;
-      background: #999;
+    .inc-src strong { color: var(--white); }
+    .income-note {
+      margin-top: 28px; padding: 16px 20px;
+      border: 1px solid rgba(201,169,110,.2);
+      background: rgba(201,169,110,.05);
+      font-size: 12px; color: var(--gold); line-height: 1.7;
     }
 
-    /* ── FEATURES ──────────────────────────────────── */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      background: var(--black);
+    /* ── MYTHS ── */
+    .myths { background: var(--surface); }
+    .myths-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 2px; background: var(--border); margin-top: 56px;
+    }
+    .myth-card {
+      background: var(--bg); padding: 44px 32px; position: relative; overflow: hidden;
+    }
+    .myth-big-num {
+      position: absolute; top: 10px; right: 20px;
+      font-family: var(--serif); font-size: 90px; font-weight: 700;
+      color: transparent; -webkit-text-stroke: 1px var(--border);
+      line-height: 1; letter-spacing: -4px; user-select: none;
+    }
+    .myth-pill {
+      display: inline-block; padding: 4px 12px;
+      background: rgba(192,57,43,.12);
+      border: 1px solid rgba(192,57,43,.25);
+      color: #e05c4d; font-size: 9px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .myth-title {
+      font-family: var(--serif); font-size: 19px; font-style: italic;
+      color: var(--white); margin-bottom: 14px; line-height: 1.35;
+    }
+    .myth-text { font-size: 12px; color: var(--gray); line-height: 1.9; }
+    .myth-divider {
+      height: 1px; background: var(--border);
+      margin: 20px 0;
+    }
+    .myth-reality {
+      font-size: 12px; color: var(--gold); line-height: 1.75; font-weight: 500;
+    }
+    .myth-reality-label {
+      font-size: 9px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--gold);
+      opacity: .7; margin-bottom: 6px;
     }
 
-    .feature {
-      padding: 56px 36px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      border-right: 1px solid #222;
-      transition: background .3s;
+    /* ── HOW IT WORKS ── */
+    .how-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: end; margin-bottom: 56px;
     }
-    .feature:last-child { border-right: none; }
-    .feature:hover { background: #1a1a1a; }
+    .steps-list {
+      display: flex; flex-direction: column; gap: 1px; background: var(--border);
+    }
+    .step-item {
+      background: var(--bg); padding: 32px 40px;
+      display: grid; grid-template-columns: 52px 1fr;
+      gap: 28px; align-items: start; transition: background .2s;
+    }
+    .step-item:hover { background: var(--surface); }
+    .step-n {
+      font-family: var(--serif); font-size: 32px; font-weight: 700;
+      color: var(--gold); line-height: 1; letter-spacing: -1px;
+    }
+    .step-body h3 {
+      font-size: 13px; font-weight: 700;
+      color: var(--white); margin-bottom: 8px; letter-spacing: .2px;
+    }
+    .step-body p { font-size: 12px; color: var(--gray); line-height: 1.85; }
 
-    .feature-icon {
-      font-size: 26px;
-      line-height: 1;
-      filter: grayscale(60%);
+    /* ── FIRST DAY ── */
+    .firstday { background: var(--surface); }
+    .fd-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 72px; align-items: start; margin-top: 56px;
     }
-
-    .feature h3 {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--white);
-      line-height: 1.5;
+    .timeline { display: flex; flex-direction: column; position: relative; }
+    .timeline::before {
+      content: ''; position: absolute;
+      left: 20px; top: 28px; bottom: 28px;
+      width: 1px; background: var(--border);
     }
-    .feature p {
-      font-size: 12px;
-      color: #888;
-      line-height: 1.85;
+    .tl-item {
+      display: grid; grid-template-columns: 44px 1fr;
+      gap: 24px; padding: 22px 0;
     }
-
-    /* ── SECTION TITLES ────────────────────────────── */
-    .sec-title {
-      text-align: center;
-      margin-bottom: 64px;
+    .tl-dot {
+      width: 8px; height: 8px; background: var(--gold);
+      border-radius: 50%; margin-top: 6px; margin-left: 16px;
+      flex-shrink: 0; position: relative; z-index: 1;
     }
-    .sec-title h2 {
-      font-size: clamp(32px, 5vw, 54px);
-      font-weight: 900;
-      letter-spacing: -2px;
-      text-transform: uppercase;
-      line-height: 1.1;
-      color: var(--black);
+    .tl-body h4 {
+      font-size: 12px; font-weight: 700; color: var(--white);
+      margin-bottom: 5px; letter-spacing: .3px;
     }
-    .sec-title h2 em {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-weight: 600;
-      text-transform: none;
-      letter-spacing: -1px;
+    .tl-body p { font-size: 12px; color: var(--gray); line-height: 1.8; }
+    .fd-highlight {
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 44px 36px; position: sticky; top: 100px;
     }
-    .sec-title p {
-      color: var(--gray);
-      margin-top: 16px;
-      font-size: 13px;
-      letter-spacing: 1px;
+    .fd-highlight-num {
+      font-family: var(--serif); font-size: 68px; font-weight: 700;
+      color: var(--gold); line-height: 1; letter-spacing: -3px;
     }
-
-    /* ── HOW IT WORKS ──────────────────────────────── */
-    .how {
-      padding: 100px 80px;
-      background: var(--light);
+    .fd-highlight-label {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted); margin-top: 8px; margin-bottom: 32px; line-height: 1.6;
     }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 2px;
+    .fd-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .fd-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 12px; color: var(--gray); line-height: 1.75;
     }
-
-    .step {
-      background: var(--white);
-      padding: 48px 36px;
-      position: relative;
-      transition: transform .25s;
+    .fd-list li::before {
+      content: ''; width: 5px; height: 5px; background: var(--gold);
+      border-radius: 50%; margin-top: 7px; flex-shrink: 0;
     }
-    .step:hover { transform: translateY(-4px); }
-
-    .step-num {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      color: var(--muted);
-      margin-bottom: 28px;
-      display: block;
+    .fd-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px;
+      border: 1px solid rgba(201,169,110,.25);
+      background: rgba(201,169,110,.07);
+      color: var(--gold); font-size: 9px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; margin-bottom: 24px;
     }
 
-    .step h3 {
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: -.3px;
-      margin-bottom: 16px;
-      line-height: 1.3;
+    /* ── WHY ── */
+    .why-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 2px; background: var(--border); margin-top: 56px;
+    }
+    .why-card {
+      background: var(--bg); padding: 44px 32px; transition: background .25s;
+    }
+    .why-card:hover { background: var(--surface); }
+    .why-num {
+      font-size: 10px; font-weight: 700; letter-spacing: 3px;
+      color: var(--muted); margin-bottom: 24px;
+    }
+    .why-card h3 {
+      font-family: var(--serif); font-size: 20px; font-style: italic;
+      color: var(--white); margin-bottom: 16px; line-height: 1.35;
+    }
+    .why-card p { font-size: 12px; color: var(--gray); line-height: 1.9; }
+
+    /* ── FAQ ── */
+    .faq { background: var(--surface); }
+    .faq-inner { max-width: 720px; margin: 56px auto 0; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 22px 0; cursor: pointer;
+      font-size: 13px; font-weight: 500; color: var(--white);
+      gap: 20px; letter-spacing: .2px; transition: color .2s;
+    }
+    .faq-q:hover { color: var(--gold); }
+    .faq-icon {
+      width: 22px; height: 22px; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); flex-shrink: 0;
+      font-size: 18px; line-height: 1;
+      transition: transform .3s, border-color .2s;
+    }
+    .faq-q:hover .faq-icon { border-color: var(--gold); }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      font-size: 12px; color: var(--gray); line-height: 1.9;
+      max-height: 0; overflow: hidden;
+      transition: max-height .4s ease, padding-bottom .4s ease;
+    }
+    .faq-item.open .faq-a { max-height: 400px; padding-bottom: 22px; }
+
+    /* ── STUDIOS ── */
+    .studios-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 2px; background: var(--border); margin-top: 56px;
+    }
+    .studio-card {
+      background: var(--surface); padding: 44px 32px;
+      transition: background .25s; position: relative; overflow: hidden;
+    }
+    .studio-card:hover { background: var(--surface2); }
+    .studio-icon {
+      font-size: 32px; margin-bottom: 20px; display: block;
+      filter: saturate(0.8);
+    }
+    .studio-country {
+      font-family: var(--serif); font-size: 22px; font-style: italic;
+      color: var(--white); margin-bottom: 12px;
+    }
+    .studio-text { font-size: 12px; color: var(--gray); line-height: 1.85; }
+    .studio-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 20px; padding: 5px 12px;
+      border: 1px solid rgba(201,169,110,.2);
+      background: rgba(201,169,110,.07);
+      color: var(--gold); font-size: 9px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+    }
+    .studio-tag::before {
+      content: ''; width: 5px; height: 5px;
+      background: var(--gold); border-radius: 50%;
     }
 
-    .step p {
-      color: var(--gray);
-      font-size: 12px;
-      line-height: 1.9;
+    /* ── FORM ── */
+    .form-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start; margin-top: 56px;
     }
-
-    .step::before {
-      content: '';
-      display: block;
-      width: 32px;
-      height: 2px;
-      background: var(--black);
-      margin-bottom: 28px;
+    .form-info { position: sticky; top: 100px; }
+    .form-info-items { display: flex; flex-direction: column; gap: 0; margin-top: 40px; }
+    .fi-item {
+      display: flex; gap: 18px; align-items: flex-start;
+      padding: 22px 0; border-bottom: 1px solid var(--border);
     }
-
-    /* ── SUCCESS ───────────────────────────────────── */
-    .success {
-      padding: 100px 80px;
-      background: var(--white);
+    .fi-item:last-child { border-bottom: none; }
+    .fi-icon {
+      width: 36px; height: 36px; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); flex-shrink: 0; font-size: 14px;
     }
-
-    .success-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
+    .fi-body strong {
+      display: block; color: var(--white);
+      font-size: 12px; font-weight: 600; margin-bottom: 4px; letter-spacing: .2px;
     }
-
-    .success-text h2 {
-      font-size: clamp(28px, 4vw, 46px);
-      font-weight: 900;
-      letter-spacing: -2px;
-      text-transform: uppercase;
-      line-height: 1.1;
-      margin-bottom: 28px;
-    }
-    .success-text h2 em {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      text-transform: none;
-      font-weight: 600;
-    }
-
-    .success-text p {
-      color: #555;
-      font-size: 13px;
-      line-height: 1.95;
-      margin-bottom: 18px;
-    }
-
-    .success-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 36px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--light);
-      border: 1px solid var(--mid);
-      padding: 10px 18px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .5px;
-      color: var(--black);
-    }
-
-    .success-visual {
-      background: var(--light);
-      aspect-ratio: 3/4;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .success-visual-inner {
-      position: absolute;
-      inset: 24px;
-      background: var(--mid);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 36px;
-    }
-
-    .success-stat {
-      margin-top: 16px;
-    }
-    .success-stat h3 {
-      font-size: 48px;
-      font-weight: 900;
-      letter-spacing: -2px;
-      line-height: 1;
-    }
-    .success-stat p {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gray);
-      margin-top: 6px;
-    }
-
-    /* ── ABOUT ─────────────────────────────────────── */
-    .about {
-      padding: 100px 80px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-      background: var(--black);
-      color: var(--white);
-    }
-
-    .about-img {
-      overflow: hidden;
-      position: relative;
-    }
-    .about-img img {
-      width: 100%;
-      height: 520px;
-      object-fit: cover;
-      display: block;
-      filter: grayscale(20%);
-      transition: transform .4s;
-    }
-    .about-img:hover img { transform: scale(1.03); }
-
-    .about-txt h2 {
-      font-size: clamp(28px, 4vw, 48px);
-      font-weight: 900;
-      letter-spacing: -2px;
-      text-transform: uppercase;
-      line-height: 1.1;
-      margin-bottom: 28px;
-      color: var(--white);
-    }
-    .about-txt h2 em {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      text-transform: none;
-      font-weight: 600;
-    }
-
-    .about-txt p {
-      color: #aaa;
-      font-size: 13px;
-      line-height: 1.95;
-      margin-bottom: 18px;
-    }
-    .about-txt strong { color: var(--white); }
-
-    .stats {
-      display: flex;
-      gap: 0;
-      margin-top: 48px;
-      border-top: 1px solid #333;
-      padding-top: 36px;
-    }
-
-    .stat {
-      flex: 1;
-      padding-right: 32px;
-      border-right: 1px solid #333;
-      margin-right: 32px;
-    }
-    .stat:last-child { border-right: none; margin-right: 0; }
-
-    .stat h3 {
-      font-size: 40px;
-      font-weight: 900;
-      letter-spacing: -2px;
-      color: var(--white);
-      line-height: 1;
-    }
-
-    .stat p {
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #666;
-      margin-top: 8px;
-      line-height: 1.6;
-    }
-
-    /* ── GALLERY ───────────────────────────────────── */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 3px;
-      background: var(--mid);
-    }
-
-    .gallery-card {
-      position: relative;
-      height: 320px;
-      overflow: hidden;
-      background: #ccc;
-    }
-
-    .gallery-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: grayscale(40%);
-      transition: transform .5s, filter .5s;
-    }
-    .gallery-card:hover img {
-      transform: scale(1.05);
-      filter: grayscale(0%);
-    }
-
-    .gallery-label {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      background: linear-gradient(transparent, rgba(0,0,0,.65));
-      color: var(--white);
-      padding: 32px 24px 20px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    /* ── FORM ──────────────────────────────────────── */
-    .form-sec {
-      padding: 100px 80px;
-      background: var(--light);
-    }
-
-    .form-card {
-      background: var(--white);
-      border: 1px solid var(--mid);
-      padding: 64px;
-      max-width: 760px;
-      margin: 0 auto;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    .fg { display: flex; flex-direction: column; gap: 10px; }
+    .fi-body span { font-size: 12px; color: var(--gray); line-height: 1.7; }
+    .form-card { background: var(--surface); border: 1px solid var(--border); padding: 44px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .fg { display: flex; flex-direction: column; gap: 8px; }
     .fg.full { grid-column: 1 / -1; }
-
     .fg label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--black);
+      font-size: 9px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--muted);
     }
-
     .fg input, .fg select, .fg textarea {
-      border: 1px solid var(--mid);
-      border-radius: 0;
-      padding: 14px 18px;
-      font-size: 13px;
-      font-family: var(--font);
-      color: var(--black);
-      background: var(--white);
-      outline: none;
-      transition: border-color .2s;
+      border: 1px solid var(--border); background: var(--bg);
+      padding: 13px 16px; font-size: 13px;
+      font-family: var(--font); color: var(--white); outline: none;
+      transition: border-color .2s; border-radius: 0;
     }
-    .fg input:focus, .fg select:focus, .fg textarea:focus {
-      border-color: var(--black);
-    }
-    .fg textarea { resize: vertical; min-height: 120px; }
-
-    .form-footer { text-align: center; margin-top: 36px; }
-
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--gold); }
+    .fg input::placeholder, .fg textarea::placeholder { color: var(--muted); }
+    .fg textarea { resize: vertical; min-height: 96px; }
+    .fg select option { background: var(--surface); }
+    .form-submit-wrap { margin-top: 28px; }
     .btn-form {
-      background: var(--black);
-      color: var(--white);
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      padding: 20px 72px;
-      border: none;
-      cursor: pointer;
-      transition: opacity .2s, transform .2s;
+      width: 100%; background: var(--gold); color: var(--bg);
+      font-weight: 700; font-size: 10px; letter-spacing: 3px;
+      text-transform: uppercase; padding: 18px;
+      border: none; cursor: pointer; transition: background .2s, transform .2s;
     }
-    .btn-form:hover { opacity: .75; transform: translateY(-2px); }
-
+    .btn-form:hover { background: var(--gold-lt); transform: translateY(-1px); }
     .form-note {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 16px;
-      letter-spacing: .5px;
+      font-size: 10px; color: var(--muted); margin-top: 12px;
+      letter-spacing: .3px; line-height: 1.65; text-align: center;
     }
-
-    .form-success { display: none; text-align: center; padding: 60px 20px; }
-    .form-success .big-icon { font-size: 64px; margin-bottom: 24px; }
-    .form-success h3 {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      text-transform: uppercase;
-      margin-bottom: 16px;
+    #formSuccess {
+      display: none; text-align: center; padding: 52px 20px;
     }
-    .form-success p { color: var(--gray); font-size: 14px; line-height: 1.8; }
+    .success-check {
+      width: 52px; height: 52px;
+      border: 1px solid var(--gold);
+      background: rgba(201,169,110,.08);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px; color: var(--gold); font-size: 20px;
+    }
+    #formSuccess h3 {
+      font-family: var(--serif); font-size: 26px; font-style: italic;
+      color: var(--white); margin-bottom: 12px;
+    }
+    #formSuccess p { color: var(--gray); font-size: 13px; line-height: 1.8; }
 
-    /* ── FOOTER ────────────────────────────────────── */
+    /* ── FOOTER ── */
     footer {
-      background: var(--black);
-      color: #555;
-      padding: 48px 80px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
+      background: #060606; border-top: 1px solid var(--border);
+      padding: 44px 56px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 20px;
     }
-
     .foot-logo {
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--white);
+      font-size: 11px; font-weight: 700; letter-spacing: 5px;
+      text-transform: uppercase; color: var(--gold);
     }
+    footer p { font-size: 11px; color: var(--muted); letter-spacing: .3px; }
 
-    footer p {
-      font-size: 11px;
-      letter-spacing: .5px;
-    }
-
-    /* ── SCROLL REVEAL ─────────────────────────────── */
+    /* ── REVEAL ── */
     .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .7s ease, transform .7s ease;
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .75s ease, transform .75s ease;
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── DIVIDER ───────────────────────────────────── */
-    .divider {
-      height: 1px;
-      background: var(--mid);
-      margin: 0 80px;
-    }
-
-    /* ── RESPONSIVE ────────────────────────────────── */
+    /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
-      .features { grid-template-columns: repeat(2,1fr); }
-      .success-grid { grid-template-columns: 1fr; }
-      .success-visual { display: none; }
+      .income-layout { grid-template-columns: 1fr; }
+      .fd-grid { grid-template-columns: 1fr; }
+      .fd-highlight { position: static; }
+      .form-layout { grid-template-columns: 1fr; }
+      .form-info { position: static; }
+      .how-header { grid-template-columns: 1fr; gap: 32px; }
     }
-
     @media (max-width: 900px) {
-      nav { padding: 16px 24px; }
+      nav { padding: 14px 20px; }
       .nav-links { display: none; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
-      .hero-left { padding: 60px 24px; }
-      .how { padding: 60px 24px; }
-      .steps { grid-template-columns: 1fr; gap: 2px; }
-      .success { padding: 60px 24px; }
-      .about { grid-template-columns: 1fr; padding: 60px 24px; }
-      .gallery { grid-template-columns: 1fr; }
-      .form-sec { padding: 60px 24px; }
-      .form-card { padding: 36px 24px; }
-      .form-grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; text-align: center; padding: 40px 24px; }
-      .divider { margin: 0 24px; }
-      .features { grid-template-columns: 1fr 1fr; }
+      .hero { padding: 120px 20px 60px; }
+      .hero-watermark { display: none; }
+      .sec-pad { padding: 60px 20px; }
+      .myths-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+      .studios-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; padding: 32px 20px; }
     }
-
     @media (max-width: 600px) {
-      .features { grid-template-columns: 1fr; }
-      .stats { flex-direction: column; gap: 24px; }
-      .stat { border-right: none; margin-right: 0; padding-right: 0; border-bottom: 1px solid #333; padding-bottom: 24px; margin-bottom: 0; }
-      .stat:last-child { border-bottom: none; }
+      .income-numbers { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .hero h1 { letter-spacing: -2px; }
+      .hero-bottom { flex-direction: column; align-items: flex-start; }
+      .hero-cta { align-items: flex-start; width: 100%; }
+      .btn-gold, .btn-ghost { width: 100%; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══ NAV ═══════════════════════════════════════════════════ -->
+<div id="progress"></div>
+
+<!-- ═══ NAV ═══ -->
 <nav>
-  <a class="nav-logo" href="#">ProfitCast</a>
+  <a class="nav-logo" href="#home">ProfitCast</a>
   <ul class="nav-links">
-    <li><a href="#about"   data-i18n="nav.about">About Us</a></li>
+    <li><a href="#income"  data-i18n="nav.income">Income</a></li>
     <li><a href="#how"     data-i18n="nav.how">How It Works</a></li>
-    <li><a href="#apply"   data-i18n="nav.apply">Apply Now</a></li>
+    <li><a href="#about"   data-i18n="nav.about">About</a></li>
+    <li><a href="#apply"   data-i18n="nav.apply">Apply</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -775,8 +587,8 @@
       <button class="lang-btn"        onclick="setLang('ro')">RO</button>
       <button class="lang-btn"        onclick="setLang('es')">ES</button>
     </div>
-    <a class="nav-tg" href="https://t.me/profitcast_official" target="_blank">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <a class="nav-tg" href="https://t.me/profitcast_official" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.012 9.488c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.875.733z"/>
       </svg>
       <span data-i18n="nav.contact">Write to us</span>
@@ -784,359 +596,710 @@
   </div>
 </nav>
 
-<!-- ═══ HERO ══════════════════════════════════════════════════ -->
+<!-- ═══ HERO ═══ -->
 <section class="hero" id="home">
-  <div class="hero-left">
-    <span class="hero-badge" data-i18n="hero.badge">🎥 Live Streaming Careers</span>
-    <h1 data-i18n-html="hero.h1">Your career in<br><em>live streaming</em><br>starts here</h1>
-    <p class="hero-sub" data-i18n="hero.sub">Join ProfitCast — a worldwide live streaming company with 7+ years of experience helping people build a successful career online.</p>
-    <a href="#apply" class="btn-black" data-i18n="hero.btn">Apply Now →</a>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-watermark">2018</div>
 
-    <div class="hero-scroll">
-      <span class="hero-scroll-line"></span>
-      Scroll
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=900&auto=format&fit=crop&q=80"
-         alt="Live streaming setup"
-         onerror="this.parentElement.style.background='#d0d0d0'" />
-    <div class="hero-overlay"></div>
-    <div class="straw-rain" id="strawRain"></div>
-
-    <div class="hero-socials">
-      <a href="#" title="Instagram">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5"/>
-          <circle cx="12" cy="12" r="4"/>
-          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-        </svg>
-      </a>
-      <a href="#" title="Twitter">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-      </a>
-      <a href="#" title="TikTok">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z"/>
-        </svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ FEATURES ══════════════════════════════════════════════ -->
-<section class="features reveal">
-  <div class="feature">
-    <div class="feature-icon">🏠</div>
-    <h3 data-i18n="f1.title">Work From Anywhere</h3>
-    <p data-i18n="f1.text">Home, studio or anywhere you feel comfortable</p>
-  </div>
-  <div class="feature">
-    <div class="feature-icon">⏰</div>
-    <h3 data-i18n="f2.title">Flexible Schedule</h3>
-    <p data-i18n="f2.text">Choose your own hours and working days</p>
-  </div>
-  <div class="feature">
-    <div class="feature-icon">💸</div>
-    <h3 data-i18n="f3.title">Daily Payments</h3>
-    <p data-i18n="f3.text">Get paid every day — no waiting, no delays</p>
-  </div>
-  <div class="feature">
-    <div class="feature-icon">🌍</div>
-    <h3 data-i18n="f4.title">Global Audience</h3>
-    <p data-i18n="f4.text">Connect with viewers from around the world</p>
-  </div>
-</section>
-
-<!-- ═══ HOW IT WORKS ══════════════════════════════════════════ -->
-<section class="how reveal" id="how">
-  <div class="sec-title">
-    <h2 data-i18n-html="how.title">How it <em>works</em></h2>
-    <p data-i18n="how.sub">Four simple steps to start your streaming career</p>
-  </div>
-  <div class="steps">
-    <div class="step">
-      <span class="step-num">01</span>
-      <h3 data-i18n="step1.title">Submit Your Application</h3>
-      <p data-i18n="step1.text">Fill out the short form on this page. Our team reviews every application personally.</p>
-    </div>
-    <div class="step">
-      <span class="step-num">02</span>
-      <h3 data-i18n="step2.title">We Reply Within 1 Hour</h3>
-      <p data-i18n="step2.text">We process your application within one hour and write to you directly via Telegram or WhatsApp.</p>
-    </div>
-    <div class="step">
-      <span class="step-num">03</span>
-      <h3 data-i18n="step3.title">Meet Your Manager</h3>
-      <p data-i18n="step3.text">Your personal manager will explain everything in detail and together you'll choose the most convenient time for your interview.</p>
-    </div>
-    <div class="step">
-      <span class="step-num">04</span>
-      <h3 data-i18n="step4.title">Start Your Journey</h3>
-      <p data-i18n="step4.text">At the interview you'll choose a convenient day for your internship — and your new career begins!</p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ SUCCESS ════════════════════════════════════════════════ -->
-<section class="success reveal" id="success">
-  <div class="success-grid">
-    <div class="success-text">
-      <h2 data-i18n-html="success.title">Our girls <em>grow here</em></h2>
-      <p data-i18n="success.p1">Many of our girls start with us and gradually build their own audience on Instagram and TikTok — then begin working for themselves. ProfitCast is not just a job, it's a launchpad for your personal brand.</p>
-      <p data-i18n="success.p2">Maximum flexibility and convenience: you choose your schedule, work from home, and receive payment every single day. From you — only desire, determination, and ambition. We take care of everything else.</p>
-      <div class="success-badges">
-        <span class="badge">💰 <span data-i18n="badge1">Daily payments</span></span>
-        <span class="badge">📅 <span data-i18n="badge2">Individual schedule</span></span>
-        <span class="badge">📱 <span data-i18n="badge3">Grow on Instagram & TikTok</span></span>
-        <span class="badge">🚀 <span data-i18n="badge4">Work for yourself</span></span>
-      </div>
-    </div>
-
-    <div class="success-visual">
-      <div class="success-visual-inner">
-        <div class="success-stat">
-          <h3>7+</h3>
-          <p data-i18n-html="stat1">Years on<br>the market</p>
-        </div>
-        <div class="success-stat">
-          <h3>50+</h3>
-          <p data-i18n-html="stat2">Countries<br>worldwide</p>
-        </div>
-        <div class="success-stat">
-          <h3>1000+</h3>
-          <p data-i18n-html="stat3">Active<br>broadcasters</p>
-        </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-i18n="hero.eyebrow">Live Streaming Careers — Est. 2018</div>
+    <h1 data-i18n-html="hero.h1">Build your career<br>in <em>live streaming</em></h1>
+    <div class="hero-bottom">
+      <p class="hero-sub" data-i18n="hero.sub">ProfitCast — professional streaming company since 2018. We handle training, support, and a personal manager for every person. You bring the desire to grow.</p>
+      <div class="hero-cta">
+        <a href="#apply" class="btn-gold" data-i18n="hero.btn">Apply Now</a>
+        <a href="#how"   class="btn-ghost" data-i18n="hero.learn">How it works</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ ABOUT ══════════════════════════════════════════════════ -->
-<section class="about reveal" id="about">
-  <div class="about-img">
-    <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&auto=format&fit=crop&q=80"
-         alt="Content creation"
-         onerror="this.style.background='#333'; this.style.height='520px'" />
+<!-- ═══ MARQUEE ═══ -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">
+      🍓 Since 2018
+      <span class="marquee-sep"></span>
+      50+ Countries
+      <span class="marquee-sep"></span>
+      1000+ Streamers
+      <span class="marquee-sep"></span>
+      4 Platforms
+      <span class="marquee-sep"></span>
+      Daily Payments
+      <span class="marquee-sep"></span>
+      Zero Investment
+      <span class="marquee-sep"></span>
+      Personal Manager
+      <span class="marquee-sep"></span>
+    </span>
+    <span class="marquee-item" aria-hidden="true">
+      🍓 Since 2018
+      <span class="marquee-sep"></span>
+      50+ Countries
+      <span class="marquee-sep"></span>
+      1000+ Streamers
+      <span class="marquee-sep"></span>
+      4 Platforms
+      <span class="marquee-sep"></span>
+      Daily Payments
+      <span class="marquee-sep"></span>
+      Zero Investment
+      <span class="marquee-sep"></span>
+      Personal Manager
+      <span class="marquee-sep"></span>
+    </span>
   </div>
-  <div class="about-txt">
-    <h2 data-i18n-html="about.h2">We connect <em>talent</em><br>with opportunity</h2>
-    <p data-i18n="about.p1">ProfitCast is a professional live streaming company specializing in live communication with online audiences. We help engaging personalities build a sustainable and rewarding career on the world's top platforms.</p>
-    <p data-i18n-html="about.p2">With over <strong>7 years of experience</strong> operating worldwide, we've helped thousands of people discover a new career path — flexible, creative, and well-paid.</p>
-    <p data-i18n="about.p3">We provide everything you need from day one: training, technical support, a dedicated personal manager, and access to platforms with the largest audiences across multiple countries.</p>
-    <div class="stats">
-      <div class="stat"><h3>7+</h3><p data-i18n-html="stat1">Years on<br>the market</p></div>
-      <div class="stat"><h3>50+</h3><p data-i18n-html="stat2">Countries<br>worldwide</p></div>
-      <div class="stat"><h3>1000+</h3><p data-i18n-html="stat3">Active<br>broadcasters</p></div>
+</div>
+
+<!-- ═══ INCOME ═══ -->
+<section class="sec-pad sec-border-b reveal" id="income">
+  <div class="sec-eyebrow" data-i18n="income.eyebrow">Income</div>
+  <h2 class="sec-h2" data-i18n-html="income.h2">Real numbers, <em>no luck</em></h2>
+
+  <div class="income-layout">
+    <div>
+      <div class="income-numbers">
+        <div class="inc-card">
+          <div class="inc-num" data-i18n="income.c1n">$15–30</div>
+          <div class="inc-label" data-i18n="income.c1l">Per shift during training</div>
+        </div>
+        <div class="inc-card">
+          <div class="inc-num" data-i18n="income.c2n">$50–80</div>
+          <div class="inc-label" data-i18n="income.c2l">Per shift after training (weeks 1–2)</div>
+        </div>
+        <div class="inc-card">
+          <div class="inc-num" data-i18n="income.c3n">$20</div>
+          <div class="inc-label" data-i18n="income.c3l">Average tip from a foreign viewer</div>
+        </div>
+        <div class="inc-card">
+          <div class="inc-num" data-i18n="income.c4n">4</div>
+          <div class="inc-label" data-i18n="income.c4l">Platforms we work on at once</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="sec-p" data-i18n="income.p">Your income at ProfitCast is not random. It depends on schedule and consistency — not talent, not appearance, not luck.</p>
+      <div class="income-sources">
+        <div class="inc-src">
+          <div class="inc-src-dot"></div>
+          <span data-i18n-html="income.s1"><strong>Monetization</strong> — main and most stable income source</span>
+        </div>
+        <div class="inc-src">
+          <div class="inc-src-dot"></div>
+          <span data-i18n-html="income.s2"><strong>Donations</strong> — $20 tips from foreign viewers are a common occurrence</span>
+        </div>
+        <div class="inc-src">
+          <div class="inc-src-dot"></div>
+          <span data-i18n-html="income.s3"><strong>Advertising</strong> — bonus income in good periods</span>
+        </div>
+      </div>
+      <div class="income-note" data-i18n="income.note">By week 3, most models reach a stable, predictable income.</div>
     </div>
   </div>
 </section>
 
-<!-- ═══ GALLERY ════════════════════════════════════════════════ -->
-<section class="gallery reveal">
-  <div class="gallery-card">
-    <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=700&auto=format&fit=crop&q=80"
-         alt="Camera setup"
-         onerror="this.style.background='#555'" />
-    <div class="gallery-label" data-i18n="gal1">Professional Setup</div>
-  </div>
-  <div class="gallery-card">
-    <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=700&auto=format&fit=crop&q=80"
-         alt="Content creator"
-         onerror="this.style.background='#444'" />
-    <div class="gallery-label" data-i18n="gal2">Engage Your Audience</div>
-  </div>
-  <div class="gallery-card">
-    <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=700&auto=format&fit=crop&q=80"
-         alt="Live streaming"
-         onerror="this.style.background='#333'" />
-    <div class="gallery-label" data-i18n="gal3">Go Live Worldwide</div>
+<!-- ═══ MYTHS ═══ -->
+<section class="myths sec-pad sec-border-b reveal">
+  <div class="sec-eyebrow" data-i18n="myths.eyebrow">Myths & Reality</div>
+  <h2 class="sec-h2" data-i18n-html="myths.h2">Let's be <em>honest</em></h2>
+
+  <div class="myths-grid">
+    <div class="myth-card">
+      <div class="myth-big-num">1</div>
+      <div class="myth-pill" data-i18n="myths.myth">Myth</div>
+      <div class="myth-title" data-i18n="m1.title">"This is webcam"</div>
+      <div class="myth-text" data-i18n="m1.text">We have no connection to webcam or 18+ content. We run live streams on mainstream platforms and earn primarily through platform monetization.</div>
+      <div class="myth-divider"></div>
+      <div class="myth-reality-label" data-i18n="myths.reality">Reality</div>
+      <div class="myth-reality" data-i18n="m1.reality">Streaming on 4 mainstream platforms. Clean, public, and professional.</div>
+    </div>
+    <div class="myth-card">
+      <div class="myth-big-num">2</div>
+      <div class="myth-pill" data-i18n="myths.myth">Myth</div>
+      <div class="myth-title" data-i18n="m2.title">"You can't make money here"</div>
+      <div class="myth-text" data-i18n="m2.text">We bring every single person to results. If you made it to the interview stage — you already qualify. The result depends only on your desire to work.</div>
+      <div class="myth-divider"></div>
+      <div class="myth-reality-label" data-i18n="myths.reality">Reality</div>
+      <div class="myth-reality" data-i18n="m2.reality">The result depends on consistency and schedule, not luck or talent.</div>
+    </div>
+    <div class="myth-card">
+      <div class="myth-big-num">3</div>
+      <div class="myth-pill" data-i18n="myths.myth">Myth</div>
+      <div class="myth-title" data-i18n="m3.title">"You need to invest money"</div>
+      <div class="myth-text" data-i18n="m3.text">Zero investments. Ever. You receive your salary from the very first shift. We provide everything needed for work — you never pay anything.</div>
+      <div class="myth-divider"></div>
+      <div class="myth-reality-label" data-i18n="myths.reality">Reality</div>
+      <div class="myth-reality" data-i18n="m3.reality">Paid from shift one. We invest in you, not the other way around.</div>
+    </div>
   </div>
 </section>
 
-<!-- ═══ APPLICATION FORM ═══════════════════════════════════════ -->
-<section class="form-sec reveal" id="apply">
-  <div class="sec-title">
-    <h2 data-i18n-html="form.title">Ready to <em>start?</em></h2>
-    <p data-i18n="form.sub">Fill out the form and we will contact you within 1 hour</p>
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="sec-pad sec-border-b reveal" id="how">
+  <div class="how-header">
+    <div>
+      <div class="sec-eyebrow" data-i18n="how.eyebrow">Process</div>
+      <h2 class="sec-h2" data-i18n-html="how.h2">How it <em>works</em></h2>
+    </div>
+    <p class="sec-p" data-i18n="how.sub">Four steps from application to your first paid shift.</p>
   </div>
 
-  <div class="form-card">
-    <div id="form-wrap">
-      <form id="applyForm" novalidate>
-        <div class="form-grid">
-          <div class="fg">
-            <label data-i18n="lbl.name">Your Name *</label>
-            <input type="text" name="name" placeholder="Maria" required />
-          </div>
-          <div class="fg">
-            <label data-i18n="lbl.age">Age *</label>
-            <input type="number" name="age" placeholder="23" min="18" max="50" required />
-          </div>
-          <div class="fg">
-            <label data-i18n="lbl.country">Country *</label>
-            <input type="text" name="country" placeholder="Ukraine, Brazil, Philippines…" required />
-          </div>
-          <div class="fg">
-            <label data-i18n="lbl.contact">Telegram or WhatsApp *</label>
-            <input type="text" name="contact" placeholder="@username or +380..." required />
-          </div>
-          <div class="fg full">
-            <label data-i18n="lbl.msg">Tell us about yourself</label>
-            <textarea name="message" placeholder="Any experience with cameras, social media, or live streaming? Share anything you'd like!"></textarea>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-n">01</div>
+      <div class="step-body">
+        <h3 data-i18n="step1.title">Submit your application</h3>
+        <p data-i18n="step1.text">Fill out the short form on this page. Our team reviews every application personally, usually within the hour.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-n">02</div>
+      <div class="step-body">
+        <h3 data-i18n="step2.title">We contact you within 1 hour</h3>
+        <p data-i18n="step2.text">Your manager reaches out directly via Telegram or WhatsApp and answers all your questions.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-n">03</div>
+      <div class="step-body">
+        <h3 data-i18n="step3.title">Interview & onboarding</h3>
+        <p data-i18n="step3.text">Your personal manager explains everything in detail and together you choose a convenient time for your first shift.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-n">04</div>
+      <div class="step-body">
+        <h3 data-i18n="step4.title">Your first shift</h3>
+        <p data-i18n="step4.text">Training with your moderator: 3–4 hours learning the platform, then ~2 hours of supervised streaming. Paid the same day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FIRST DAY ═══ -->
+<section class="firstday sec-pad sec-border-b reveal">
+  <div class="sec-eyebrow" data-i18n="firstday.eyebrow">Your First Day</div>
+  <h2 class="sec-h2" data-i18n-html="firstday.h2">Day one, <em>step by step</em></h2>
+  <p class="sec-p" data-i18n="firstday.p">Your first day is a calm, structured introduction — no stress, no pressure. Here's exactly what happens.</p>
+
+  <div class="fd-grid">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-body">
+          <h4 data-i18n="tl1.title">Contact your moderator</h4>
+          <p data-i18n="tl1.text">You connect with your personal moderator and agree on the exact date and time of your first shift in advance.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-body">
+          <h4 data-i18n="tl2.title">Zoom or Discord call</h4>
+          <p data-i18n="tl2.text">At the start of the shift, you join a video call with your moderator — in whatever format is most comfortable for you.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-body">
+          <h4 data-i18n="tl3.title">Platform training (3–4 hours)</h4>
+          <p data-i18n="tl3.text">The moderator walks through everything via screen share: how the platforms work, how to automate your workflow, and how to avoid confusion.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-body">
+          <h4 data-i18n="tl4.title">Your first live stream (~2 hours)</h4>
+          <p data-i18n="tl4.text">After training you go live for about 2 hours to practice what you've learned. Minimal audience intentionally — for a comfortable start.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-body">
+          <h4 data-i18n="tl5.title">Payment — same day</h4>
+          <p data-i18n="tl5.text">You receive your payment immediately after the shift. Day one, same day. Every time.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fd-highlight">
+      <div class="fd-badge" data-i18n="fd.badge">Paid from day one</div>
+      <div class="fd-highlight-num" data-i18n="fd.num">$15–30</div>
+      <div class="fd-highlight-label" data-i18n="fd.label">Average pay for a training shift</div>
+      <ul class="fd-list">
+        <li data-i18n="fd.li1">Personal moderator for your entire training period</li>
+        <li data-i18n="fd.li2">Full screen-shared walk-through of all 4 platforms</li>
+        <li data-i18n="fd.li3">Minimal audience during internship for a stress-free start</li>
+        <li data-i18n="fd.li4">Payment on the day of your shift, every time</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHY US ═══ -->
+<section class="sec-pad sec-border-b reveal" id="about">
+  <div class="sec-eyebrow" data-i18n="why.eyebrow">Why ProfitCast</div>
+  <h2 class="sec-h2" data-i18n-html="why.h2">Work that fits <em>your life</em></h2>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num" data-i18n="why1.num">01</div>
+      <h3 data-i18n="why1.title">Flexibility & Convenience</h3>
+      <p data-i18n="why1.text">We understand you may have studies or another job. Minimum 2 working days per week — and you're already making progress. The schedule is always built around you, agreed in advance.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num" data-i18n="why2.num">02</div>
+      <h3 data-i18n="why2.title">Personal Growth</h3>
+      <p data-i18n="why2.text">You develop not only on our platforms, but can build an audience on TikTok, Instagram, and Telegram in parallel. Later — take on brand advertising and work entirely for yourself.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num" data-i18n="why3.num">03</div>
+      <h3 data-i18n="why3.title">Work Through Your Interests</h3>
+      <p data-i18n="why3.text">Love drawing? Into beauty? Enjoy chatting? Our work is built around your hobbies and passions. Everything happens naturally, comfortably, and quickly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="faq sec-pad sec-border-b reveal">
+  <div class="sec-eyebrow" data-i18n="faq.eyebrow">Questions</div>
+  <h2 class="sec-h2" data-i18n-html="faq.h2">Frequently <em>asked</em></h2>
+
+  <div class="faq-inner">
+    <div class="faq-item">
+      <div class="faq-q"><span data-i18n="faq1.q">Can I combine this with studying or another job?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a" data-i18n="faq1.a">Yes — easily. ProfitCast offers a fully flexible schedule. You decide when and how much you work. The minimum is 2 working days per week. Perfect for students or anyone looking for additional income.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span data-i18n="faq2.q">Do I need to know English?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a" data-i18n="faq2.a">Not at all. We work through chat using a built-in translator. All processes are automated and simplified. There are zero language barriers.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span data-i18n="faq3.q">What if I'm scared to start and have no experience?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a" data-i18n="faq3.a">Completely normal. We support beginners from day one: step-by-step training, constant support from your moderator, a friendly team, and help until you reach real, consistent results. You are never alone in the process.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span data-i18n="faq4.q">Do I need to look like a model?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a" data-i18n="faq4.a">No. Live streaming success depends on energy and genuine connection with the audience — not on appearance. Girls with completely different looks and personalities succeed here every day.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span data-i18n="faq5.q">What if I don't enjoy it after trying?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a" data-i18n="faq5.a">You lose nothing by trying. You can test it out and decide whether it's for you — no pressure, no obligation. Many girls who were unsure are still with us years later.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span data-i18n="faq6.q">How does payment work?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a" data-i18n="faq6.a">You are paid at the end of every shift, the same day. Income comes from three sources: platform monetization, viewer donations, and advertising. Starting from training, you receive payment after every single shift.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STUDIOS ═══ -->
+<section class="sec-pad sec-border-b reveal">
+  <div class="sec-eyebrow" data-i18n="studios.eyebrow">Offline Studios</div>
+  <h2 class="sec-h2" data-i18n-html="studios.h2">Physical locations <em>available</em></h2>
+  <p class="sec-p" data-i18n="studios.p">In addition to remote work, we have fully equipped offline studios with professional setups and unique aesthetic designs.</p>
+
+  <div class="studios-grid">
+    <div class="studio-card">
+      <span class="studio-icon">🇷🇺</span>
+      <div class="studio-country" data-i18n="st1.country">Russia</div>
+      <div class="studio-text" data-i18n="st1.text">Our Russian studio locations offer professional equipment, fast internet, and comfortable working environments with various aesthetic designs.</div>
+      <div class="studio-tag" data-i18n="st1.badge">Available</div>
+    </div>
+    <div class="studio-card">
+      <span class="studio-icon">🇧🇾</span>
+      <div class="studio-country" data-i18n="st2.country">Belarus</div>
+      <div class="studio-text" data-i18n="st2.text">Minsk-based studio with full technical support, stylish setup options, and dedicated comfortable spaces for our models.</div>
+      <div class="studio-tag" data-i18n="st2.badge">Available</div>
+    </div>
+    <div class="studio-card">
+      <span class="studio-icon">🇬🇪</span>
+      <div class="studio-country" data-i18n="st3.country">Georgia</div>
+      <div class="studio-text" data-i18n="st3.text">Our Tbilisi location for those who prefer working in a professional studio environment in a warm, vibrant city.</div>
+      <div class="studio-tag" data-i18n="st3.badge">Available</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FORM ═══ -->
+<section class="sec-pad reveal" id="apply">
+  <div class="sec-eyebrow" data-i18n="form.eyebrow">Apply Now</div>
+  <h2 class="sec-h2" data-i18n-html="form.h2">Start your <em>journey</em></h2>
+
+  <div class="form-layout">
+    <div class="form-info">
+      <p class="sec-p" data-i18n="form.p">Fill out the form and we'll reach out within 1 hour.</p>
+      <div class="form-info-items">
+        <div class="fi-item">
+          <div class="fi-icon">⚡</div>
+          <div class="fi-body">
+            <strong data-i18n="fi1.title">Response within 1 hour</strong>
+            <span data-i18n="fi1.text">Every application is reviewed personally. We'll write to you in Telegram or WhatsApp.</span>
           </div>
         </div>
-        <div class="form-footer">
-          <button type="submit" class="btn-form" id="submitBtn" data-i18n="form.btn">Send Application →</button>
-          <p class="form-note" data-i18n="form.note">By submitting this form you agree to be contacted by our team via Telegram or WhatsApp</p>
+        <div class="fi-item">
+          <div class="fi-icon">◎</div>
+          <div class="fi-body">
+            <strong data-i18n="fi2.title">Zero investment</strong>
+            <span data-i18n="fi2.text">No fees, no purchases. You're paid from your very first shift — we handle everything else.</span>
+          </div>
         </div>
-      </form>
+        <div class="fi-item">
+          <div class="fi-icon">♦</div>
+          <div class="fi-body">
+            <strong data-i18n="fi3.title">Your personal manager</strong>
+            <span data-i18n="fi3.text">From the moment you join, you have a dedicated person who guides and supports you every step.</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-success" id="formSuccess">
-      <div class="big-icon">✓</div>
-      <h3 data-i18n="success.h3">Application Received!</h3>
-      <p data-i18n="success.msg">Thank you! Our manager will contact you within 1 hour.<br />Check your Telegram or WhatsApp for our message.</p>
+
+    <div class="form-card">
+      <div id="form-wrap">
+        <form id="applyForm" novalidate>
+          <div class="form-grid">
+            <div class="fg">
+              <label data-i18n="lbl.name">Your Name</label>
+              <input type="text" name="name" placeholder="Maria" required />
+            </div>
+            <div class="fg">
+              <label data-i18n="lbl.age">Age</label>
+              <input type="number" name="age" placeholder="23" min="18" max="50" required />
+            </div>
+            <div class="fg">
+              <label data-i18n="lbl.country">Country</label>
+              <input type="text" name="country" placeholder="Ukraine, Brazil, Georgia…" required />
+            </div>
+            <div class="fg">
+              <label data-i18n="lbl.contact">Telegram or WhatsApp</label>
+              <input type="text" name="contact" placeholder="@username or +380…" required />
+            </div>
+            <div class="fg full">
+              <label data-i18n="lbl.msg">About yourself</label>
+              <textarea name="message" placeholder="Any experience with cameras, social media, or live streaming? Tell us anything."></textarea>
+            </div>
+          </div>
+          <div class="form-submit-wrap">
+            <button type="submit" class="btn-form" id="submitBtn" data-i18n="form.btn">Send Application</button>
+            <p class="form-note" data-i18n="form.note">By submitting this form you agree to be contacted by our team via Telegram or WhatsApp</p>
+          </div>
+        </form>
+      </div>
+      <div id="formSuccess">
+        <div class="success-check">✓</div>
+        <h3 data-i18n="success.h3">Application received</h3>
+        <p data-i18n="success.msg">Thank you! Our manager will contact you within 1 hour. Check your Telegram or WhatsApp.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ FOOTER ═════════════════════════════════════════════════ -->
+<!-- ═══ FOOTER ═══ -->
 <footer>
   <span class="foot-logo">ProfitCast</span>
   <p>© 2026 ProfitCast · Working worldwide since 2018</p>
-  <p data-i18n="footer.tag">Live Streaming &amp; Broadcasting</p>
+  <p data-i18n="footer.tag">Live Streaming & Broadcasting · Since 2018</p>
 </footer>
 
-<!-- ═══ SCRIPTS ════════════════════════════════════════════════ -->
+<!-- ═══ SCRIPTS ═══ -->
 <script>
-/* ── TRANSLATIONS ─────────────────────────────────────────── */
+/* ── TRANSLATIONS ── */
 const T = {
   en: {
-    'nav.about':'About Us','nav.how':'How It Works','nav.apply':'Apply Now','nav.contact':'Write to us',
-    'hero.badge':'🎥 Live Streaming Careers',
-    'hero.h1':'Your career in<br><em>live streaming</em><br>starts here',
-    'hero.sub':'Join ProfitCast — a worldwide live streaming company with 7+ years of experience helping people build a successful career online.',
-    'hero.btn':'Apply Now →',
-    'f1.title':'Work From Anywhere','f1.text':'Home, studio or anywhere you feel comfortable',
-    'f2.title':'Flexible Schedule','f2.text':'Choose your own hours and working days',
-    'f3.title':'Daily Payments','f3.text':'Get paid every day — no waiting, no delays',
-    'f4.title':'Global Audience','f4.text':'Connect with viewers from around the world',
-    'how.title':'How it <em>works</em>','how.sub':'Four simple steps to start your streaming career',
-    'step1.title':'Submit Your Application','step1.text':'Fill out the short form on this page. Our team reviews every application personally.',
-    'step2.title':'We Reply Within 1 Hour','step2.text':'We process your application within one hour and write to you directly via Telegram or WhatsApp.',
-    'step3.title':'Meet Your Manager','step3.text':'Your personal manager will explain everything in detail and together you\'ll choose the most convenient time for your interview.',
-    'step4.title':'Start Your Journey','step4.text':'At the interview you\'ll choose a convenient day for your internship — and your new career begins!',
-    'success.title':'Our girls <em>grow here</em>',
-    'success.p1':'Many of our girls start with us and gradually build their own audience on Instagram and TikTok — then begin working for themselves. ProfitCast is not just a job, it\'s a launchpad for your personal brand.',
-    'success.p2':'Maximum flexibility and convenience: you choose your schedule, work from home, and receive payment every single day. From you — only desire, determination, and ambition. We take care of everything else.',
-    'badge1':'Daily payments','badge2':'Individual schedule','badge3':'Grow on Instagram & TikTok','badge4':'Work for yourself',
-    'about.h2':'We connect <em>talent</em><br>with opportunity',
-    'about.p1':'ProfitCast is a professional live streaming company specializing in live communication with online audiences. We help engaging personalities build a sustainable and rewarding career on the world\'s top platforms.',
-    'about.p2':'With over <strong>7 years of experience</strong> operating worldwide, we\'ve helped thousands of people discover a new career path — flexible, creative, and well-paid.',
-    'about.p3':'We provide everything you need from day one: training, technical support, a dedicated personal manager, and access to platforms with the largest audiences across multiple countries.',
-    'stat1':'Years on<br>the market','stat2':'Countries<br>worldwide','stat3':'Active<br>broadcasters',
-    'gal1':'Professional Setup','gal2':'Engage Your Audience','gal3':'Go Live Worldwide',
-    'form.title':'Ready to <em>start?</em>','form.sub':'Fill out the form and we will contact you within 1 hour',
-    'lbl.name':'Your Name *','lbl.age':'Age *','lbl.country':'Country *','lbl.contact':'Telegram or WhatsApp *','lbl.msg':'Tell us about yourself',
-    'form.btn':'Send Application →','form.note':'By submitting this form you agree to be contacted by our team via Telegram or WhatsApp',
-    'success.h3':'Application Received!','success.msg':'Thank you! Our manager will contact you within 1 hour.<br/>Check your Telegram or WhatsApp for our message.',
-    'footer.tag':'Live Streaming & Broadcasting'
+    'nav.income':'Income','nav.how':'How It Works','nav.about':'About','nav.apply':'Apply','nav.contact':'Write to us',
+    'hero.eyebrow':'Live Streaming Careers — Est. 2018',
+    'hero.h1':'Build your career<br>in <em>live streaming</em>',
+    'hero.sub':'ProfitCast — professional streaming company since 2018. We handle training, support, and a personal manager for every person. You bring the desire to grow.',
+    'hero.btn':'Apply Now','hero.learn':'How it works',
+    'income.eyebrow':'Income',
+    'income.h2':'Real numbers, <em>no luck</em>',
+    'income.p':'Your income at ProfitCast is not random. It depends on schedule and consistency — not talent, not appearance, not luck.',
+    'income.c1n':'$15–30','income.c1l':'Per shift during training',
+    'income.c2n':'$50–80','income.c2l':'Per shift after training (weeks 1–2)',
+    'income.c3n':'$20','income.c3l':'Average tip from a foreign viewer',
+    'income.c4n':'4','income.c4l':'Platforms we work on at once',
+    'income.s1':'<strong>Monetization</strong> — main and most stable income source',
+    'income.s2':'<strong>Donations</strong> — $20 tips from foreign viewers are a common occurrence',
+    'income.s3':'<strong>Advertising</strong> — bonus income in good periods',
+    'income.note':'By week 3, most models reach a stable, predictable income.',
+    'myths.eyebrow':'Myths & Reality',
+    'myths.h2':'Let\'s be <em>honest</em>',
+    'myths.myth':'Myth','myths.reality':'Reality',
+    'm1.title':'"This is webcam"',
+    'm1.text':'We have no connection to webcam or 18+ content. We run live streams on mainstream platforms and earn primarily through platform monetization.',
+    'm1.reality':'Streaming on 4 mainstream platforms. Clean, public, and professional.',
+    'm2.title':'"You can\'t make money here"',
+    'm2.text':'We bring every single person to results. If you made it to the interview stage — you already qualify. The result depends only on your desire to work.',
+    'm2.reality':'The result depends on consistency and schedule, not luck or talent.',
+    'm3.title':'"You need to invest money"',
+    'm3.text':'Zero investments. Ever. You receive your salary from the very first shift. We provide everything needed for work — you never pay anything.',
+    'm3.reality':'Paid from shift one. We invest in you, not the other way around.',
+    'how.eyebrow':'Process',
+    'how.h2':'How it <em>works</em>',
+    'how.sub':'Four steps from application to your first paid shift.',
+    'step1.title':'Submit your application','step1.text':'Fill out the short form on this page. Our team reviews every application personally, usually within the hour.',
+    'step2.title':'We contact you within 1 hour','step2.text':'Your manager reaches out directly via Telegram or WhatsApp and answers all your questions.',
+    'step3.title':'Interview & onboarding','step3.text':'Your personal manager explains everything in detail and together you choose a convenient time for your first shift.',
+    'step4.title':'Your first shift','step4.text':'Training with your moderator: 3–4 hours learning the platform, then ~2 hours of supervised streaming. Paid the same day.',
+    'firstday.eyebrow':'Your First Day',
+    'firstday.h2':'Day one, <em>step by step</em>',
+    'firstday.p':'Your first day is a calm, structured introduction — no stress, no pressure. Here\'s exactly what happens.',
+    'tl1.title':'Contact your moderator','tl1.text':'You connect with your personal moderator and agree on the exact date and time of your first shift in advance.',
+    'tl2.title':'Zoom or Discord call','tl2.text':'At the start of the shift, you join a video call with your moderator — in whatever format is most comfortable.',
+    'tl3.title':'Platform training (3–4 hours)','tl3.text':'The moderator walks through everything via screen share: how the platforms work, how to automate your workflow, and how to avoid confusion.',
+    'tl4.title':'Your first live stream (~2 hours)','tl4.text':'After training you go live for about 2 hours to practice what you\'ve learned. Minimal audience intentionally — for a comfortable start.',
+    'tl5.title':'Payment — same day','tl5.text':'You receive your payment immediately after the shift. Day one, same day. Every time.',
+    'fd.badge':'Paid from day one','fd.num':'$15–30','fd.label':'Average pay for a training shift',
+    'fd.li1':'Personal moderator for your entire training period',
+    'fd.li2':'Full screen-shared walk-through of all 4 platforms',
+    'fd.li3':'Minimal audience during internship for a stress-free start',
+    'fd.li4':'Payment on the day of your shift, every time',
+    'why.eyebrow':'Why ProfitCast',
+    'why.h2':'Work that fits <em>your life</em>',
+    'why1.num':'01','why1.title':'Flexibility & Convenience',
+    'why1.text':'We understand you may have studies or another job. Minimum 2 working days per week — and you\'re already making progress. The schedule is always built around you, agreed in advance.',
+    'why2.num':'02','why2.title':'Personal Growth',
+    'why2.text':'You develop not only on our platforms, but can build an audience on TikTok, Instagram, and Telegram in parallel. Later — take on brand advertising and work entirely for yourself.',
+    'why3.num':'03','why3.title':'Work Through Your Interests',
+    'why3.text':'Love drawing? Into beauty? Enjoy chatting? Our work is built around your hobbies and passions. Everything happens naturally, comfortably, and quickly.',
+    'faq.eyebrow':'Questions',
+    'faq.h2':'Frequently <em>asked</em>',
+    'faq1.q':'Can I combine this with studying or another job?',
+    'faq1.a':'Yes — easily. ProfitCast offers a fully flexible schedule. You decide when and how much you work. The minimum is 2 working days per week. Perfect for students or anyone looking for additional income.',
+    'faq2.q':'Do I need to know English?',
+    'faq2.a':'Not at all. We work through chat using a built-in translator. All processes are automated and simplified. There are zero language barriers.',
+    'faq3.q':'What if I\'m scared to start and have no experience?',
+    'faq3.a':'Completely normal. We support beginners from day one: step-by-step training, constant support from your moderator, a friendly team, and help until you reach real, consistent results. You are never alone in the process.',
+    'faq4.q':'Do I need to look like a model?',
+    'faq4.a':'No. Live streaming success depends on energy and genuine connection with the audience — not on appearance. Girls with completely different looks and personalities succeed here every day.',
+    'faq5.q':'What if I don\'t enjoy it after trying?',
+    'faq5.a':'You lose nothing by trying. You can test it out and decide whether it\'s for you — no pressure, no obligation. Many girls who were unsure are still with us years later.',
+    'faq6.q':'How does payment work?',
+    'faq6.a':'You are paid at the end of every shift, the same day. Income comes from three sources: platform monetization, viewer donations, and advertising. Starting from training, you receive payment after every single shift.',
+    'studios.eyebrow':'Offline Studios',
+    'studios.h2':'Physical locations <em>available</em>',
+    'studios.p':'In addition to remote work, we have fully equipped offline studios with professional setups and unique aesthetic designs.',
+    'st1.country':'Russia','st1.text':'Our Russian studio locations offer professional equipment, fast internet, and comfortable working environments with various aesthetic designs.','st1.badge':'Available',
+    'st2.country':'Belarus','st2.text':'Minsk-based studio with full technical support, stylish setup options, and dedicated comfortable spaces for our models.','st2.badge':'Available',
+    'st3.country':'Georgia','st3.text':'Our Tbilisi location for those who prefer working in a professional studio environment in a warm, vibrant city.','st3.badge':'Available',
+    'form.eyebrow':'Apply Now',
+    'form.h2':'Start your <em>journey</em>',
+    'form.p':'Fill out the form and we\'ll reach out within 1 hour.',
+    'fi1.title':'Response within 1 hour','fi1.text':'Every application is reviewed personally. We\'ll write to you in Telegram or WhatsApp.',
+    'fi2.title':'Zero investment','fi2.text':'No fees, no purchases. You\'re paid from your very first shift — we handle everything else.',
+    'fi3.title':'Your personal manager','fi3.text':'From the moment you join, you have a dedicated person who guides and supports you every step.',
+    'lbl.name':'Your Name','lbl.age':'Age','lbl.country':'Country','lbl.contact':'Telegram or WhatsApp','lbl.msg':'About yourself',
+    'form.btn':'Send Application',
+    'form.note':'By submitting this form you agree to be contacted by our team via Telegram or WhatsApp',
+    'success.h3':'Application received',
+    'success.msg':'Thank you! Our manager will contact you within 1 hour. Check your Telegram or WhatsApp.',
+    'footer.tag':'Live Streaming & Broadcasting · Since 2018'
   },
   ru: {
-    'nav.about':'О нас','nav.how':'Как работает','nav.apply':'Подать заявку','nav.contact':'Написать нам',
-    'hero.badge':'🎥 Карьера в стриминге',
-    'hero.h1':'Твоя карьера в<br><em>прямых эфирах</em><br>начинается здесь',
-    'hero.sub':'Присоединяйся к ProfitCast — международной компании с опытом 7+ лет в создании успешных онлайн-карьер.',
-    'hero.btn':'Подать заявку →',
-    'f1.title':'Работа из любой точки','f1.text':'Дом, студия или любое удобное место',
-    'f2.title':'Гибкий график','f2.text':'Выбирай удобные часы и рабочие дни',
-    'f3.title':'Выплаты день в день','f3.text':'Получай оплату каждый день без задержек',
-    'f4.title':'Глобальная аудитория','f4.text':'Общайся со зрителями со всего мира',
-    'how.title':'Как это <em>работает</em>','how.sub':'Четыре простых шага к карьере стримера',
-    'step1.title':'Подай заявку','step1.text':'Заполни короткую форму на этой странице. Каждую заявку рассматривают лично.',
-    'step2.title':'Ответим в течение часа','step2.text':'Обработаем заявку за один час и напишем тебе в Telegram или WhatsApp.',
-    'step3.title':'Познакомься с менеджером','step3.text':'Личный менеджер подробно расскажет обо всём и поможет выбрать удобное время для собеседования.',
-    'step4.title':'Начни свой путь','step4.text':'На собеседовании выберешь удобный день для стажировки — и новая карьера начнётся!',
-    'success.title':'Наши девушки <em>растут здесь</em>',
-    'success.p1':'Многие наши девушки начинают с нас и постепенно набирают собственную аудиторию в Instagram и TikTok — затем начинают работать на себя.',
-    'success.p2':'Максимально гибкая работа: сам выбираешь график, работаешь из дома, получаешь оплату каждый день. От тебя нужно только желание, целеустремлённость и амбициозность.',
-    'badge1':'Выплаты день в день','badge2':'Индивидуальный график','badge3':'Рост в Instagram и TikTok','badge4':'Работа на себя',
-    'about.h2':'Мы соединяем <em>талант</em><br>с возможностью',
-    'about.p1':'ProfitCast — профессиональная компания в сфере live-стриминга, специализирующаяся на живом общении с онлайн-аудиторией.',
-    'about.p2':'За <strong>7+ лет работы</strong> по всему миру мы помогли тысячам людей открыть новый карьерный путь.',
-    'about.p3':'Мы обеспечиваем всем необходимым с первого дня: обучение, техническая поддержка, личный менеджер и доступ к платформам.',
-    'stat1':'Лет на<br>рынке','stat2':'Стран<br>по всему миру','stat3':'Активных<br>стримеров',
-    'gal1':'Профессиональная студия','gal2':'Вовлекай аудиторию','gal3':'Выходи в эфир по всему миру',
-    'form.title':'Готова <em>начать?</em>','form.sub':'Заполни форму и мы свяжемся с тобой в течение 1 часа',
-    'lbl.name':'Твоё имя *','lbl.age':'Возраст *','lbl.country':'Страна *','lbl.contact':'Telegram или WhatsApp *','lbl.msg':'Расскажи о себе',
-    'form.btn':'Отправить заявку →','form.note':'Отправляя форму, ты соглашаешься на связь с нашей командой через Telegram или WhatsApp',
-    'success.h3':'Заявка получена!','success.msg':'Спасибо! Наш менеджер свяжется с тобой в течение 1 часа.<br/>Жди сообщения в Telegram или WhatsApp.',
-    'footer.tag':'Лайв-стриминг и вещание'
+    'nav.income':'Доход','nav.how':'Как работает','nav.about':'О нас','nav.apply':'Заявка','nav.contact':'Написать нам',
+    'hero.eyebrow':'Карьера в стриминге — с 2018 года',
+    'hero.h1':'Построй карьеру<br>в <em>прямых эфирах</em>',
+    'hero.sub':'ProfitCast — профессиональная стриминговая компания с 2018 года. Мы берём на себя всё: обучение, поддержку и личного менеджера. От тебя — желание расти.',
+    'hero.btn':'Подать заявку','hero.learn':'Как это работает',
+    'income.eyebrow':'Доход',
+    'income.h2':'Реальные цифры, <em>без везения</em>',
+    'income.p':'Доход в ProfitCast не случаен. Он зависит от графика и регулярности — не от таланта, внешности и удачи.',
+    'income.c1n':'$15–30','income.c1l':'За смену в период стажировки',
+    'income.c2n':'$50–80','income.c2l':'За смену на 1–2 неделе после стажировки',
+    'income.c3n':'$20','income.c3l':'Средний донат от иностранного зрителя',
+    'income.c4n':'4','income.c4l':'Платформы, на которых мы работаем одновременно',
+    'income.s1':'<strong>Монетизация</strong> — основной и самый стабильный доход',
+    'income.s2':'<strong>Донаты</strong> — 20 долларов «на чай» от иностранца — обычная история',
+    'income.s3':'<strong>Реклама</strong> — даёт ощутимый плюс в хорошие периоды',
+    'income.note':'К третьей неделе большинство моделей выходит на стабильный, предсказуемый доход.',
+    'myths.eyebrow':'Мифы и реальность',
+    'myths.h2':'Говорим <em>как есть</em>',
+    'myths.myth':'Миф','myths.reality':'Реальность',
+    'm1.title':'«Это вебкам»',
+    'm1.text':'Мы никак не связаны с вебкамом или 18+ контентом. Мы проводим прямые эфиры на мейнстримных платформах и зарабатываем прежде всего на монетизации.',
+    'm1.reality':'Стриминг на 4 мейнстримных платформах. Чисто, публично, профессионально.',
+    'm2.title':'«Тут невозможно заработать»',
+    'm2.text':'Мы доводим до результата каждого. Если ты дошла до собеседования — ты уже подходишь. Результат зависит только от желания работать.',
+    'm2.reality':'Результат зависит от регулярности и графика, а не от везения или таланта.',
+    'm3.title':'«Нужно вкладываться»',
+    'm3.text':'Ноль вложений. Никогда. Зарплата с первой смены. Всё необходимое для работы мы предоставляем — ты никогда ничего не платишь.',
+    'm3.reality':'Оплата с первой смены. Инвестируем мы в тебя, а не наоборот.',
+    'how.eyebrow':'Процесс',
+    'how.h2':'Как это <em>работает</em>',
+    'how.sub':'Четыре шага от заявки до первой оплачиваемой смены.',
+    'step1.title':'Подай заявку','step1.text':'Заполни короткую форму на этой странице. Каждую заявку рассматривают лично, как правило, в течение часа.',
+    'step2.title':'Мы свяжемся в течение часа','step2.text':'Менеджер напишет напрямую в Telegram или WhatsApp и ответит на все вопросы.',
+    'step3.title':'Собеседование и онбординг','step3.text':'Личный менеджер подробно расскажет о работе и вместе с тобой подберёт удобное время для первой смены.',
+    'step4.title':'Первая смена','step4.text':'День с модератором: 3–4 часа обучения платформе, затем ~2 часа стрима под присмотром. Оплата в тот же день.',
+    'firstday.eyebrow':'Первый день',
+    'firstday.h2':'День первый — <em>шаг за шагом</em>',
+    'firstday.p':'Первый день — это спокойное, структурированное погружение. Без стресса, без перегруза. Вот как это происходит.',
+    'tl1.title':'Связь с модератором','tl1.text':'Ты связываешься с личным модератором и заранее оговариваете точную дату и время первой смены.',
+    'tl2.title':'Созвон в Zoom или Discord','tl2.text':'В начале смены — видеозвонок с модератором в удобном формате.',
+    'tl3.title':'Обучение (3–4 часа)','tl3.text':'Модератор проводит всё через демонстрацию экрана: как работают платформы, как автоматизировать процессы, как не запутаться.',
+    'tl4.title':'Первый стрим (~2 часа)','tl4.text':'После обучения — выход в эфир примерно на 2 часа для практики. Аудитория минимальная намеренно — для комфортного старта.',
+    'tl5.title':'Оплата — в тот же день','tl5.text':'Зарплата сразу после смены, день в день. С самого первого раза.',
+    'fd.badge':'Оплата с первого дня','fd.num':'$15–30','fd.label':'Средний заработок за стажировочную смену',
+    'fd.li1':'Личный модератор на всё время стажировки',
+    'fd.li2':'Демонстрация всех 4 платформ через экран',
+    'fd.li3':'Минимальная аудитория на стажировке — для комфортного старта',
+    'fd.li4':'Выплата в день смены, каждый раз',
+    'why.eyebrow':'Почему ProfitCast',
+    'why.h2':'Работа, которая <em>подстраивается под тебя</em>',
+    'why1.num':'01','why1.title':'Гибкость и удобство',
+    'why1.text':'Мы понимаем, что у тебя может быть учёба или другая работа. Минимум 2 рабочих дня в неделю — и ты уже в деле. График всегда обговаривается заранее и строится вокруг тебя.',
+    'why2.num':'02','why2.title':'Личностный рост',
+    'why2.text':'Ты развиваешься не только на наших платформах, но и параллельно можешь расти в TikTok, Instagram, Telegram. Позже — брать рекламу и работать полностью на себя.',
+    'why3.num':'03','why3.title':'Работа через интересы',
+    'why3.text':'Рисуешь? Занимаешься бьюти? Любишь общаться? Наша работа строится вокруг твоих хобби и увлечений. Всё происходит непринуждённо, комфортно и быстро.',
+    'faq.eyebrow':'Вопросы',
+    'faq.h2':'Часто <em>спрашивают</em>',
+    'faq1.q':'Можно ли совмещать с учёбой или другой работой?',
+    'faq1.a':'Да — без проблем. В ProfitCast полностью гибкий график. Ты сам(а) решаешь, когда и сколько работать. Минимум — 2 рабочих дня в неделю. Подходит студентам и тем, кто ищет дополнительный доход.',
+    'faq2.q':'Нужно ли знать английский язык?',
+    'faq2.a':'Нет — совсем. Мы работаем через чат со встроенным переводчиком. Все процессы автоматизированы и упрощены. Никаких языковых барьеров.',
+    'faq3.q':'Что делать, если страшно начинать и нет опыта?',
+    'faq3.a':'Это абсолютно нормально. Мы поддерживаем новичков с первого дня: обучение с нуля, постоянная поддержка модератора, дружный коллектив и помощь до реального результата. Ты никогда не остаёшься одна в процессе.',
+    'faq4.q':'Нужна ли модельная внешность?',
+    'faq4.a':'Нет. Успех в стримах зависит от энергии и живого контакта с аудиторией — а не от внешности. Разные девушки с совершенно разной внешностью и харизмой успешно работают у нас каждый день.',
+    'faq5.q':'А если мне не понравится после того, как попробую?',
+    'faq5.a':'Ты ничего не теряешь. Можно попробовать и понять — твоё это или нет. Без давления и обязательств.',
+    'faq6.q':'Как устроена оплата?',
+    'faq6.a':'Оплата в конце каждой смены, день в день. Доход складывается из трёх источников: монетизация платформ, донаты от зрителей, реклама. Начиная со стажировки — выплата после каждой смены.',
+    'studios.eyebrow':'Оффлайн студии',
+    'studios.h2':'Физические локации <em>доступны</em>',
+    'studios.p':'Помимо удалённой работы, у нас есть полностью оборудованные оффлайн-студии с профессиональной техникой и уникальным эстетическим оформлением.',
+    'st1.country':'Россия','st1.text':'Студии в России оснащены профессиональным оборудованием, быстрым интернетом и комфортной рабочей атмосферой с различными вариантами оформления.','st1.badge':'Доступно',
+    'st2.country':'Беларусь','st2.text':'Минская студия с полной технической поддержкой, стильными вариантами дизайна и отдельными комфортными пространствами для наших моделей.','st2.badge':'Доступно',
+    'st3.country':'Грузия','st3.text':'Наша тбилисская локация — для тех, кто предпочитает работать в профессиональной студии в тёплом, живом городе.','st3.badge':'Доступно',
+    'form.eyebrow':'Подать заявку',
+    'form.h2':'Начни свой <em>путь</em>',
+    'form.p':'Заполни форму, и мы свяжемся с тобой в течение 1 часа.',
+    'fi1.title':'Ответ в течение 1 часа','fi1.text':'Каждую заявку рассматривают лично. Напишем тебе в Telegram или WhatsApp.',
+    'fi2.title':'Ноль вложений','fi2.text':'Никаких взносов, никаких покупок. Зарплата с первой смены — мы берём на себя всё остальное.',
+    'fi3.title':'Твой личный менеджер','fi3.text':'С момента вступления у тебя есть человек, который ведёт и поддерживает тебя на каждом шагу.',
+    'lbl.name':'Твоё имя','lbl.age':'Возраст','lbl.country':'Страна','lbl.contact':'Telegram или WhatsApp','lbl.msg':'О себе',
+    'form.btn':'Отправить заявку',
+    'form.note':'Отправляя форму, ты соглашаешься на связь с нашей командой через Telegram или WhatsApp',
+    'success.h3':'Заявка получена',
+    'success.msg':'Спасибо! Наш менеджер свяжется с тобой в течение 1 часа. Жди сообщения в Telegram или WhatsApp.',
+    'footer.tag':'Лайв-стриминг и вещание · с 2018 года'
   },
   ro: {
-    'nav.about':'Despre noi','nav.how':'Cum funcționează','nav.apply':'Aplică acum','nav.contact':'Scrie-ne',
-    'hero.badge':'🎥 Cariere în streaming live',
-    'hero.h1':'Cariera ta în<br><em>streaming live</em><br>începe aici',
-    'hero.sub':'Alătură-te ProfitCast — o companie internațională cu 7+ ani de experiență în construirea carierei online.',
-    'hero.btn':'Aplică acum →',
-    'f1.title':'Lucrează de oriunde','f1.text':'Acasă, studio sau oriunde te simți confortabil',
-    'f2.title':'Program flexibil','f2.text':'Alege propriile ore și zile de lucru',
-    'f3.title':'Plăți zilnice','f3.text':'Primești plata în fiecare zi, fără întârzieri',
-    'f4.title':'Audiență globală','f4.text':'Conectează-te cu privitori din întreaga lume',
-    'how.title':'Cum <em>funcționează</em>','how.sub':'Patru pași simpli pentru a-ți începe cariera',
-    'step1.title':'Trimite cererea','step1.text':'Completează formularul scurt de pe această pagină. Echipa noastră analizează fiecare cerere personal.',
-    'step2.title':'Răspundem în 1 oră','step2.text':'Procesăm cererea ta într-o oră și îți scriem direct prin Telegram sau WhatsApp.',
-    'step3.title':'Întâlnește-ți managerul','step3.text':'Managerul personal îți va explica totul în detaliu și veți alege împreună momentul potrivit pentru interviu.',
-    'step4.title':'Începe călătoria','step4.text':'La interviu alegi ziua convenabilă pentru stagiu — și noua ta carieră începe!',
-    'success.title':'Fetele noastre <em>cresc aici</em>',
-    'success.p1':'Multe dintre fetele noastre încep cu noi și își construiesc treptat propria audiență pe Instagram și TikTok.',
-    'success.p2':'Muncă maximă de flexibilă: îți alegi programul, lucrezi de acasă, primești plata zilnic.',
-    'badge1':'Plăți zilnice','badge2':'Program individual','badge3':'Creștere pe Instagram & TikTok','badge4':'Lucrează pe cont propriu',
-    'about.h2':'Conectăm <em>talentul</em><br>cu oportunitatea',
-    'about.p1':'ProfitCast este o companie profesionistă de streaming live, specializată în comunicarea live cu audiențe online.',
-    'about.p2':'Cu peste <strong>7 ani de experiență</strong> la nivel mondial, am ajutat mii de oameni să descopere o nouă cale profesională.',
-    'about.p3':'Oferim tot ce ai nevoie din prima zi: formare, suport tehnic, manager personal dedicat și acces la platforme cu audiențe mari.',
-    'stat1':'Ani pe<br>piață','stat2':'Țări din<br>întreaga lume','stat3':'Streameri<br>activi',
-    'gal1':'Configurare profesională','gal2':'Implică audiența','gal3':'Transmite live în lume',
-    'form.title':'Gata să <em>începi?</em>','form.sub':'Completează formularul și te vom contacta în 1 oră',
-    'lbl.name':'Numele tău *','lbl.age':'Vârsta *','lbl.country':'Țara *','lbl.contact':'Telegram sau WhatsApp *','lbl.msg':'Spune-ne despre tine',
-    'form.btn':'Trimite cererea →','form.note':'Prin trimiterea formularului ești de acord să fii contactată de echipa noastră',
-    'success.h3':'Cerere primită!','success.msg':'Mulțumim! Managerul nostru te va contacta în 1 oră.<br/>Verifică Telegram sau WhatsApp.',
-    'footer.tag':'Streaming live și difuzare'
+    'nav.income':'Venit','nav.how':'Cum funcționează','nav.about':'Despre noi','nav.apply':'Aplică','nav.contact':'Scrie-ne',
+    'hero.eyebrow':'Cariere în streaming — din 2018',
+    'hero.h1':'Construiește-ți cariera<br>în <em>streaming live</em>',
+    'hero.sub':'ProfitCast — companie profesionistă de streaming din 2018. Ne ocupăm de tot: training, suport și manager personal. Tu aduce dorința de a crește.',
+    'hero.btn':'Aplică acum','hero.learn':'Cum funcționează',
+    'income.eyebrow':'Venit','income.h2':'Cifre reale, <em>fără noroc</em>',
+    'income.p':'Venitul la ProfitCast nu este aleatoriu. Depinde de programul și regularitatea ta.',
+    'income.c1n':'$15–30','income.c1l':'Per tură în timpul trainingului',
+    'income.c2n':'$50–80','income.c2l':'Per tură după training (săptămânile 1–2)',
+    'income.c3n':'$20','income.c3l':'Donație medie de la un singur vizitator',
+    'income.c4n':'4','income.c4l':'Platforme pe care lucrăm simultan',
+    'income.s1':'<strong>Monetizare</strong> — sursa principală și cea mai stabilă de venit',
+    'income.s2':'<strong>Donații</strong> — bacșișuri de $20 de la vizitatori',
+    'income.s3':'<strong>Publicitate</strong> — venit suplimentar',
+    'income.note':'Până la săptămâna 3, majoritatea modelelor ating un venit stabil și previzibil.',
+    'myths.eyebrow':'Mituri & Realitate','myths.h2':'Să fim <em>sinceri</em>','myths.myth':'Mit','myths.reality':'Realitate',
+    'm1.title':'"Este webcam"','m1.text':'Nu avem nicio legătură cu webcam sau conținut 18+. Facem streaming live pe platforme mainstream.','m1.reality':'Streaming pe 4 platforme publice. Curat, profesionist.',
+    'm2.title':'"Nu poți câștiga aici"','m2.text':'Aducem fiecare persoană la rezultate. Dacă ai ajuns la interviu — ești deja calificată.','m2.reality':'Rezultatul depinde de consistență, nu de noroc.',
+    'm3.title':'"Trebuie să investești"','m3.text':'Zero investiții. Primești salariu de la prima tură. Noi asigurăm tot.','m3.reality':'Plătit din prima tură. Noi investim în tine.',
+    'how.eyebrow':'Proces','how.h2':'Cum <em>funcționează</em>','how.sub':'Patru pași de la cerere la prima tură plătită.',
+    'step1.title':'Trimite cererea','step1.text':'Completează formularul scurt. Fiecare cerere este revizuită personal.',
+    'step2.title':'Te contactăm în 1 oră','step2.text':'Managerul tău te contactează pe Telegram sau WhatsApp.',
+    'step3.title':'Interviu & onboarding','step3.text':'Managerul personal îți explică totul și alegeți împreună un moment convenabil.',
+    'step4.title':'Prima ta tură','step4.text':'Zi de training cu moderatorul: 3–4 ore de învățare, apoi ~2 ore de streaming. Plătit în aceeași zi.',
+    'firstday.eyebrow':'Prima zi','firstday.h2':'Ziua întâi — <em>pas cu pas</em>','firstday.p':'Prima zi este o introducere calmă și structurată. Fără stres.',
+    'tl1.title':'Contactezi moderatorul','tl1.text':'Te conectezi cu moderatorul personal și stabiliți data și ora primei ture.',
+    'tl2.title':'Apel Zoom sau Discord','tl2.text':'La începutul turei, te alături unui apel video cu moderatorul.',
+    'tl3.title':'Training platformă (3–4 ore)','tl3.text':'Moderatorul îți arată totul prin screen share.',
+    'tl4.title':'Primul stream (~2 ore)','tl4.text':'Mergi live pentru ~2 ore să practici. Audiență minimă intenționat.',
+    'tl5.title':'Plată — în aceeași zi','tl5.text':'Primești plata imediat după tură.',
+    'fd.badge':'Plătit din prima zi','fd.num':'$15–30','fd.label':'Câștig mediu pentru o tură de training',
+    'fd.li1':'Moderator personal pe toată perioada trainingului','fd.li2':'Demonstrație a tuturor celor 4 platforme','fd.li3':'Audiență minimă în internship','fd.li4':'Plată în ziua turei, de fiecare dată',
+    'why.eyebrow':'De ce ProfitCast','why.h2':'Muncă care se <em>potrivește vieții tale</em>',
+    'why1.num':'01','why1.title':'Flexibilitate','why1.text':'Minimum 2 zile lucrătoare pe săptămână. Programul este întotdeauna construit în jurul tău.',
+    'why2.num':'02','why2.title':'Creștere personală','why2.text':'Te dezvolți pe platformele noastre și în paralel pe TikTok, Instagram, Telegram.',
+    'why3.num':'03','why3.title':'Muncă prin interesele tale','why3.text':'Desenezi? Ești pasionată de beauty? Ne construim munca în jurul pasiunilor tale.',
+    'faq.eyebrow':'Întrebări','faq.h2':'Frecvent <em>întrebat</em>',
+    'faq1.q':'Pot combina cu studiile sau alt job?','faq1.a':'Da. Program complet flexibil. Minimum 2 zile lucrătoare pe săptămână.',
+    'faq2.q':'Trebuie să știu engleză?','faq2.a':'Nu. Lucrăm prin chat cu traducător integrat.',
+    'faq3.q':'Ce fac dacă mi-e frică să încep și nu am experiență?','faq3.a':'Normal. Susținem începătorii de la prima zi: training de la zero, suport constant.',
+    'faq4.q':'Am nevoie de aspectul unui model?','faq4.a':'Nu. Succesul depinde de energie și conexiune cu audiența.',
+    'faq5.q':'Ce dacă nu-mi place după ce încerc?','faq5.a':'Nu pierzi nimic. Poți încerca și decide — fără presiune.',
+    'faq6.q':'Cum funcționează plata?','faq6.a':'Plată la sfârșitul fiecărei ture, în aceeași zi. Din monetizare, donații și publicitate.',
+    'studios.eyebrow':'Studiouri Offline','studios.h2':'Locații fizice <em>disponibile</em>','studios.p':'Pe lângă munca la distanță, avem studiouri offline complet echipate.',
+    'st1.country':'Rusia','st1.text':'Echipamente profesionale, internet rapid și medii de lucru confortabile.','st1.badge':'Disponibil',
+    'st2.country':'Belarus','st2.text':'Studio în Minsk cu suport tehnic complet și spații dedicate.','st2.badge':'Disponibil',
+    'st3.country':'Georgia','st3.text':'Locația noastră din Tbilisi pentru cei care preferă un mediu profesionist de studio.','st3.badge':'Disponibil',
+    'form.eyebrow':'Aplică acum','form.h2':'Începe <em>călătoria ta</em>','form.p':'Completează formularul și te vom contacta în 1 oră.',
+    'fi1.title':'Răspuns în 1 oră','fi1.text':'Fiecare cerere este revizuită personal. Îți vom scrie pe Telegram sau WhatsApp.',
+    'fi2.title':'Zero investiții','fi2.text':'Fără taxe. Plătit de la prima tură.',
+    'fi3.title':'Managerul tău personal','fi3.text':'De la momentul înscrierii ai o persoană dedicată care te ghidează.',
+    'lbl.name':'Numele tău','lbl.age':'Vârstă','lbl.country':'Țara','lbl.contact':'Telegram sau WhatsApp','lbl.msg':'Despre tine',
+    'form.btn':'Trimite cererea','form.note':'Prin trimiterea formularului ești de acord să fii contactată de echipa noastră',
+    'success.h3':'Cerere primită','success.msg':'Mulțumim! Managerul nostru te va contacta în 1 oră.',
+    'footer.tag':'Streaming Live & Broadcasting · Din 2018'
   },
   es: {
-    'nav.about':'Sobre nosotros','nav.how':'Cómo funciona','nav.apply':'Aplica ahora','nav.contact':'Escríbenos',
-    'hero.badge':'🎥 Carreras en streaming en vivo',
-    'hero.h1':'Tu carrera en<br><em>streaming en vivo</em><br>comienza aquí',
-    'hero.sub':'Únete a ProfitCast — una empresa internacional con 7+ años de experiencia ayudando a construir carreras online exitosas.',
-    'hero.btn':'Aplica ahora →',
-    'f1.title':'Trabaja desde cualquier lugar','f1.text':'Casa, estudio o donde te sientas cómoda',
-    'f2.title':'Horario flexible','f2.text':'Elige tus propias horas y días de trabajo',
-    'f3.title':'Pagos diarios','f3.text':'Recibe tu pago cada día sin demoras',
-    'f4.title':'Audiencia global','f4.text':'Conecta con espectadores de todo el mundo',
-    'how.title':'Cómo <em>funciona</em>','how.sub':'Cuatro pasos simples para comenzar tu carrera',
-    'step1.title':'Envía tu solicitud','step1.text':'Completa el formulario corto en esta página. Nuestro equipo revisa cada solicitud personalmente.',
-    'step2.title':'Respondemos en 1 hora','step2.text':'Procesamos tu solicitud en una hora y te escribimos directamente por Telegram o WhatsApp.',
-    'step3.title':'Conoce a tu manager','step3.text':'Tu manager personal te explicará todo en detalle y juntos elegirán el momento más conveniente para la entrevista.',
-    'step4.title':'Comienza tu viaje','step4.text':'¡En la entrevista elegirás el día conveniente para tu pasantía y tu nueva carrera comenzará!',
-    'success.title':'Nuestras chicas <em>crecen aquí</em>',
-    'success.p1':'Muchas de nuestras chicas comienzan con nosotros y gradualmente construyen su propia audiencia en Instagram y TikTok.',
-    'success.p2':'Trabajo maximamente flexible: eliges tu horario, trabajas desde casa, recibes pago cada día.',
-    'badge1':'Pagos diarios','badge2':'Horario individual','badge3':'Crecer en Instagram y TikTok','badge4':'Trabaja para ti misma',
-    'about.h2':'Conectamos el <em>talento</em><br>con la oportunidad',
-    'about.p1':'ProfitCast es una empresa profesional de streaming en vivo especializada en la comunicación en directo con audiencias online.',
-    'about.p2':'Con más de <strong>7 años de experiencia</strong> a nivel mundial, hemos ayudado a miles de personas a descubrir un nuevo camino profesional.',
-    'about.p3':'Proporcionamos todo lo necesario desde el primer día: formación, soporte técnico, manager personal y acceso a plataformas con las mayores audiencias.',
-    'stat1':'Años en<br>el mercado','stat2':'Países en<br>todo el mundo','stat3':'Streamers<br>activos',
-    'gal1':'Configuración profesional','gal2':'Involucra tu audiencia','gal3':'Transmite en vivo al mundo',
-    'form.title':'¿Lista para <em>empezar?</em>','form.sub':'Completa el formulario y te contactaremos en 1 hora',
-    'lbl.name':'Tu nombre *','lbl.age':'Edad *','lbl.country':'País *','lbl.contact':'Telegram o WhatsApp *','lbl.msg':'Cuéntanos sobre ti',
-    'form.btn':'Enviar solicitud →','form.note':'Al enviar este formulario aceptas ser contactada por nuestro equipo',
-    'success.h3':'¡Solicitud recibida!','success.msg':'¡Gracias! Nuestro manager se pondrá en contacto en 1 hora.<br/>Revisa tu Telegram o WhatsApp.',
-    'footer.tag':'Streaming en vivo y transmisión'
+    'nav.income':'Ingresos','nav.how':'Cómo funciona','nav.about':'Sobre nosotros','nav.apply':'Aplica','nav.contact':'Escríbenos',
+    'hero.eyebrow':'Carreras en streaming — desde 2018',
+    'hero.h1':'Construye tu carrera<br>en <em>streaming en vivo</em>',
+    'hero.sub':'ProfitCast — empresa profesional de streaming desde 2018. Nos encargamos de todo: formación, soporte y manager personal. Tú aporta las ganas de crecer.',
+    'hero.btn':'Aplica ahora','hero.learn':'Cómo funciona',
+    'income.eyebrow':'Ingresos','income.h2':'Cifras reales, <em>sin suerte</em>',
+    'income.p':'Los ingresos en ProfitCast no son aleatorios. Dependen de tu horario y constancia.',
+    'income.c1n':'$15–30','income.c1l':'Por turno durante el entrenamiento',
+    'income.c2n':'$50–80','income.c2l':'Por turno después del entrenamiento (semanas 1–2)',
+    'income.c3n':'$20','income.c3l':'Propina media de un solo espectador',
+    'income.c4n':'4','income.c4l':'Plataformas en las que trabajamos simultáneamente',
+    'income.s1':'<strong>Monetización</strong> — fuente de ingresos principal y más estable',
+    'income.s2':'<strong>Donaciones</strong> — propinas de $20 de espectadores',
+    'income.s3':'<strong>Publicidad</strong> — ingresos adicionales',
+    'income.note':'Para la semana 3, la mayoría de las modelos alcanzan ingresos estables y predecibles.',
+    'myths.eyebrow':'Mitos & Realidad','myths.h2':'Seamos <em>honestas</em>','myths.myth':'Mito','myths.reality':'Realidad',
+    'm1.title':'"Esto es webcam"','m1.text':'No tenemos ninguna conexión con webcam o contenido 18+. Hacemos streaming en plataformas convencionales.','m1.reality':'Streaming en 4 plataformas públicas. Limpio, profesional.',
+    'm2.title':'"No se puede ganar dinero aquí"','m2.text':'Llevamos a cada persona a resultados. Si llegaste a la entrevista — ya calificas.','m2.reality':'El resultado depende de la constancia, no de la suerte.',
+    'm3.title':'"Hay que invertir dinero"','m3.text':'Cero inversiones. Cobras desde el primer turno. Nosotros proporcionamos todo.','m3.reality':'Pagado desde el primer turno. Nosotros invertimos en ti.',
+    'how.eyebrow':'Proceso','how.h2':'Cómo <em>funciona</em>','how.sub':'Cuatro pasos desde la solicitud hasta tu primer turno pagado.',
+    'step1.title':'Envía tu solicitud','step1.text':'Completa el formulario corto. Cada solicitud es revisada personalmente.',
+    'step2.title':'Te contactamos en 1 hora','step2.text':'Tu manager te escribe directamente por Telegram o WhatsApp.',
+    'step3.title':'Entrevista & incorporación','step3.text':'Tu manager personal te explica todo y juntos elegís el momento más conveniente.',
+    'step4.title':'Tu primer turno','step4.text':'Día de entrenamiento con tu moderador: 3–4 horas aprendiendo la plataforma, luego ~2 horas de streaming supervisado. Pagado el mismo día.',
+    'firstday.eyebrow':'Primer día','firstday.h2':'Día uno — <em>paso a paso</em>','firstday.p':'Tu primer día es una introducción tranquila y estructurada. Sin estrés.',
+    'tl1.title':'Contactas a tu moderador','tl1.text':'Te conectas con tu moderador personal y acordáis la fecha y hora exactas del primer turno.',
+    'tl2.title':'Llamada por Zoom o Discord','tl2.text':'Al inicio del turno, te unes a una videollamada con tu moderador.',
+    'tl3.title':'Entrenamiento de plataforma (3–4 horas)','tl3.text':'El moderador te muestra todo mediante pantalla compartida.',
+    'tl4.title':'Tu primer streaming (~2 horas)','tl4.text':'Vas en vivo durante ~2 horas para practicar. Audiencia mínima intencionadamente.',
+    'tl5.title':'Pago — el mismo día','tl5.text':'Recibes tu pago inmediatamente después del turno.',
+    'fd.badge':'Pagado desde el primer día','fd.num':'$15–30','fd.label':'Ganancia media en un turno de entrenamiento',
+    'fd.li1':'Moderador personal durante todo el período de entrenamiento','fd.li2':'Demostración de las 4 plataformas mediante pantalla compartida','fd.li3':'Audiencia mínima en prácticas para un inicio cómodo','fd.li4':'Pago el día del turno, siempre',
+    'why.eyebrow':'Por qué ProfitCast','why.h2':'Trabajo que se adapta <em>a tu vida</em>',
+    'why1.num':'01','why1.title':'Flexibilidad','why1.text':'Mínimo 2 días laborales por semana. El horario siempre se construye en torno a ti.',
+    'why2.num':'02','why2.title':'Crecimiento personal','why2.text':'Te desarrollas en nuestras plataformas y en paralelo puedes crecer en TikTok, Instagram, Telegram.',
+    'why3.num':'03','why3.title':'Trabajo a través de tus intereses','why3.text':'¿Te gusta dibujar? ¿La belleza? Construimos el trabajo en torno a tus pasiones.',
+    'faq.eyebrow':'Preguntas','faq.h2':'Frecuentemente <em>preguntado</em>',
+    'faq1.q':'¿Puedo combinarlo con estudios u otro trabajo?','faq1.a':'Sí. Horario completamente flexible. Mínimo 2 días laborales por semana.',
+    'faq2.q':'¿Necesito saber inglés?','faq2.a':'No. Trabajamos a través de chat con traductor integrado.',
+    'faq3.q':'¿Qué pasa si me da miedo empezar y no tengo experiencia?','faq3.a':'Es completamente normal. Apoyamos a los principiantes desde el primer día.',
+    'faq4.q':'¿Necesito tener aspecto de modelo?','faq4.a':'No. El éxito depende de la energía y conexión con la audiencia.',
+    'faq5.q':'¿Qué pasa si no me gusta después de intentarlo?','faq5.a':'No pierdes nada. Puedes probar y decidir — sin presión.',
+    'faq6.q':'¿Cómo funciona el pago?','faq6.a':'Pago al final de cada turno, el mismo día. De monetización, donaciones y publicidad.',
+    'studios.eyebrow':'Estudios Offline','studios.h2':'Ubicaciones físicas <em>disponibles</em>','studios.p':'Además del trabajo remoto, tenemos estudios offline completamente equipados.',
+    'st1.country':'Rusia','st1.text':'Equipos profesionales, internet rápido y ambientes de trabajo cómodos con varios diseños.','st1.badge':'Disponible',
+    'st2.country':'Bielorrusia','st2.text':'Estudio en Minsk con soporte técnico completo y espacios dedicados.','st2.badge':'Disponible',
+    'st3.country':'Georgia','st3.text':'Nuestra ubicación en Tbilisi para quienes prefieren un entorno de estudio profesional.','st3.badge':'Disponible',
+    'form.eyebrow':'Aplica ahora','form.h2':'Comienza tu <em>camino</em>','form.p':'Completa el formulario y te contactaremos en 1 hora.',
+    'fi1.title':'Respuesta en 1 hora','fi1.text':'Cada solicitud se revisa personalmente. Te escribiremos en Telegram o WhatsApp.',
+    'fi2.title':'Cero inversiones','fi2.text':'Sin tarifas. Cobras desde el primer turno.',
+    'fi3.title':'Tu manager personal','fi3.text':'Desde el momento en que te unes, tienes una persona dedicada que te guía.',
+    'lbl.name':'Tu nombre','lbl.age':'Edad','lbl.country':'País','lbl.contact':'Telegram o WhatsApp','lbl.msg':'Sobre ti',
+    'form.btn':'Enviar solicitud','form.note':'Al enviar este formulario aceptas ser contactada por nuestro equipo',
+    'success.h3':'Solicitud recibida','success.msg':'Gracias. Nuestro manager se pondrá en contacto en 1 hora.',
+    'footer.tag':'Streaming en Vivo & Broadcasting · Desde 2018'
   }
 };
 
@@ -1148,48 +1311,49 @@ function setLang(lang) {
     b.classList.toggle('active', b.textContent === lang.toUpperCase());
   });
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (T[lang][key] !== undefined) el.textContent = T[lang][key];
+    const k = el.getAttribute('data-i18n');
+    if (T[lang][k] !== undefined) el.textContent = T[lang][k];
   });
   document.querySelectorAll('[data-i18n-html]').forEach(el => {
-    const key = el.getAttribute('data-i18n-html');
-    if (T[lang][key] !== undefined) el.innerHTML = T[lang][key];
+    const k = el.getAttribute('data-i18n-html');
+    if (T[lang][k] !== undefined) el.innerHTML = T[lang][k];
   });
   document.documentElement.lang = lang;
 }
 
-/* ── STRAWBERRY RAIN ──────────────────────────────────────── */
-(function() {
-  const container = document.getElementById('strawRain');
-  const count = 10;
-  for (let i = 0; i < count; i++) {
-    const s = document.createElement('span');
-    s.className = 'straw';
-    s.textContent = '🍓';
-    s.style.left = (Math.random() * 100) + '%';
-    s.style.fontSize = (12 + Math.random() * 12) + 'px';
-    s.style.animationDuration = (5 + Math.random() * 6) + 's';
-    s.style.animationDelay = (Math.random() * 8) + 's';
-    container.appendChild(s);
-  }
-})();
+/* ── FAQ ACCORDION ── */
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
 
-/* ── SCROLL REVEAL ─────────────────────────────────────────── */
+/* ── SCROLL REVEAL ── */
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-/* ── FORM SUBMIT ───────────────────────────────────────────── */
+/* ── PROGRESS BAR ── */
+window.addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+/* ── FORM SUBMIT ── */
 const BOT_TOKEN = '8635637632:AAHbN2u39OVfV3-G_xJU0x5TjYVc-hBwfZQ';
 const CHAT_ID   = '7577571032';
 const W3F_KEY   = '1d3952a6-be43-4373-be41-4d1c541eb150';
 
-document.getElementById('applyForm').addEventListener('submit', async (e) => {
+document.getElementById('applyForm').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
-  btn.textContent = '...';
-  btn.disabled = true;
+  const origText = btn.textContent;
+  btn.textContent = '...'; btn.disabled = true;
 
   const f = e.target;
   const name    = f.name.value.trim();
@@ -1201,14 +1365,8 @@ document.getElementById('applyForm').addEventListener('submit', async (e) => {
 
   const tgText =
     `🆕 *New Application — ProfitCast*\n\n` +
-    `👤 *Name:* ${name}\n🎂 *Age:* ${age}\n🌍 *Country:* ${country}\n📱 *Contact:* ${contact}\n💬 *About:* ${message || '—'}\n⏰ ${now} MSK`;
-
-  const emailBody = {
-    access_key: W3F_KEY,
-    subject: `New Application from ${name} — ProfitCast`,
-    name, email: 'noreply@profitcast.com',
-    message: `Name: ${name}\nAge: ${age}\nCountry: ${country}\nContact: ${contact}\nAbout: ${message || '—'}\nTime: ${now} MSK`
-  };
+    `👤 *Name:* ${name}\n🎂 *Age:* ${age}\n🌍 *Country:* ${country}\n` +
+    `📱 *Contact:* ${contact}\n💬 *About:* ${message || '—'}\n⏰ ${now} MSK`;
 
   try {
     const [tgRes, emailRes] = await Promise.all([
@@ -1218,19 +1376,23 @@ document.getElementById('applyForm').addEventListener('submit', async (e) => {
       }),
       fetch('https://api.web3forms.com/submit', {
         method: 'POST', headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(emailBody)
+        body: JSON.stringify({
+          access_key: W3F_KEY,
+          subject: `New Application from ${name} — ProfitCast`,
+          name, email: 'noreply@profitcast.com',
+          message: `Name: ${name}\nAge: ${age}\nCountry: ${country}\nContact: ${contact}\nAbout: ${message || '—'}\nTime: ${now} MSK`
+        })
       })
     ]);
-    const tgData = await tgRes.json();
-    const emailData = await emailRes.json();
-    if (tgData.ok || emailData.success) {
+    const tg = await tgRes.json();
+    const em = await emailRes.json();
+    if (tg.ok || em.success) {
       document.getElementById('form-wrap').style.display = 'none';
       document.getElementById('formSuccess').style.display = 'block';
     } else throw new Error('fail');
   } catch {
-    btn.textContent = T[currentLang]['form.btn'] || 'Send Application →';
-    btn.disabled = false;
-    alert('Something went wrong. Please write to us directly on Telegram.');
+    btn.textContent = origText; btn.disabled = false;
+    alert('Something went wrong. Please write to us directly on Telegram: @profitcast_official');
   }
 });
 </script>
